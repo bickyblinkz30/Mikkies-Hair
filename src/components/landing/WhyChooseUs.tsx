@@ -2,22 +2,21 @@
 
 import { motion } from "framer-motion"
 import { Gem, Users, Crown } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 const reasons = [
   {
     title: "Premium Quality",
-    description: "We use only the finest products for your hair, ensuring every treatment delivers exceptional results.",
+    description: "Only the finest products for exceptional results.",
     icon: Gem,
   },
   {
     title: "Expert Stylists",
-    description: "Years of experience and continuous education keep our team at the forefront of hair artistry.",
+    description: "Years of experience in hair artistry.",
     icon: Users,
   },
   {
     title: "Luxury Experience",
-    description: "From consultation to finish, every moment matters. Relax and indulge in a setting designed for you.",
+    description: "Relax and indulge in a setting designed for you.",
     icon: Crown,
   },
 ]
@@ -31,16 +30,17 @@ const containerVariants = {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
   },
 }
 
 export function WhyChooseUs() {
   return (
-    <section className="border-t border-[#1f1f1f] py-24">
+    <section className="relative border-t border-white/10 py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -49,10 +49,10 @@ export function WhyChooseUs() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="font-serif text-4xl tracking-wide text-foreground sm:text-5xl">
+          <h2 className="font-serif text-4xl tracking-wide text-white sm:text-5xl">
             Why Mikkies Hair
           </h2>
-          <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#D4AF37]" />
+          <div className="mx-auto mt-3 h-px w-20 bg-white/30" />
         </motion.div>
 
         <motion.div
@@ -60,21 +60,21 @@ export function WhyChooseUs() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="mt-14 grid gap-6 md:grid-cols-3"
+          className="mt-14 flex flex-col items-center justify-center gap-12 md:flex-row md:gap-16"
         >
           {reasons.map((reason) => (
             <motion.div
               key={reason.title}
               variants={itemVariants}
-              className="group rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:border-[#D4AF37]/40 hover:-translate-y-1"
+              className="group flex flex-col items-center text-center max-w-xs"
             >
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#D4AF37]/10 text-[#D4AF37] transition-colors group-hover:bg-[#D4AF37]/20">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/40 transition-all duration-500 group-hover:border-[#D4AF37]/30 group-hover:text-[#D4AF37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]">
                 <reason.icon className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground">
+              <h3 className="mt-5 text-lg font-semibold text-white">
                 {reason.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-white/50">
                 {reason.description}
               </p>
             </motion.div>
