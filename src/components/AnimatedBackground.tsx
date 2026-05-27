@@ -25,16 +25,16 @@ export function AnimatedBackground() {
       isGold: boolean
     }[] = []
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         size: Math.random() * 2.5 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.2,
-        speedY: (Math.random() - 0.5) * 0.2,
-        opacity: Math.random() * 0.5 + 0.1,
+        speedX: (Math.random() - 0.5) * 0.25,
+        speedY: (Math.random() - 0.5) * 0.25,
+        opacity: Math.random() * 0.5 + 0.15,
         opacitySpeed: Math.random() * 0.005 + 0.002,
-        isGold: Math.random() > 0.6,
+        isGold: Math.random() > 0.55,
       })
     }
 
@@ -51,14 +51,15 @@ export function AnimatedBackground() {
       const h = canvas!.height
       const maxDim = Math.sqrt(w * w + h * h)
 
-      for (let i = 0; i < 6; i++) {
+      // White silk waves — diagonal flowing
+      for (let i = 0; i < 5; i++) {
         ctx.beginPath()
 
-        const angle = -0.3 + i * 0.12
-        const baseOffset = i * 90 - 250
-        const amplitude = 45 + i * 18
-        const freq = 0.003 + i * 0.0004
-        const speed = 0.08 + i * 0.025
+        const angle = -0.35 + i * 0.14
+        const baseOffset = i * 100 - 200
+        const amplitude = 50 + i * 20
+        const freq = 0.003 + i * 0.0005
+        const speed = 0.1 + i * 0.03
 
         const cosA = Math.cos(angle)
         const sinA = Math.sin(angle)
@@ -67,7 +68,7 @@ export function AnimatedBackground() {
         const centerY = h * 0.5 + sinA * baseOffset
 
         let first = true
-        for (let d = -maxDim * 0.5; d < maxDim * 1.5; d += 4) {
+        for (let d = -maxDim * 0.5; d < maxDim * 1.5; d += 3) {
           const px = centerX + d * cosA
           const py = centerY + d * sinA
 
@@ -89,19 +90,20 @@ export function AnimatedBackground() {
           }
         }
 
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.012 + i * 0.008})`
-        ctx.lineWidth = 1.5 + i * 0.4
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + i * 0.015})`
+        ctx.lineWidth = 1.5 + i * 0.5
         ctx.stroke()
       }
 
+      // Silver accent waves
       for (let i = 0; i < 3; i++) {
         ctx.beginPath()
 
-        const angle = -0.6 + i * 0.2
-        const baseOffset = i * 120 - 150
-        const amplitude = 35 + i * 15
+        const angle = -0.65 + i * 0.22
+        const baseOffset = i * 120 - 120
+        const amplitude = 40 + i * 18
         const freq = 0.004 + i * 0.001
-        const speed = 0.06 + i * 0.02
+        const speed = 0.07 + i * 0.025
 
         const cosA = Math.cos(angle)
         const sinA = Math.sin(angle)
@@ -110,7 +112,7 @@ export function AnimatedBackground() {
         const centerY = h * 0.5 + sinA * baseOffset
 
         let first = true
-        for (let d = -maxDim * 0.5; d < maxDim * 1.5; d += 4) {
+        for (let d = -maxDim * 0.5; d < maxDim * 1.5; d += 3) {
           const px = centerX + d * cosA
           const py = centerY + d * sinA
 
@@ -132,8 +134,8 @@ export function AnimatedBackground() {
           }
         }
 
-        ctx.strokeStyle = `rgba(192, 192, 192, ${0.01 + i * 0.007})`
-        ctx.lineWidth = 2 + i * 0.5
+        ctx.strokeStyle = `rgba(192, 192, 192, ${0.025 + i * 0.01})`
+        ctx.lineWidth = 2 + i * 0.6
         ctx.stroke()
       }
     }
@@ -147,8 +149,8 @@ export function AnimatedBackground() {
         p.y += p.speedY + Math.cos(t * 0.015 + p.x * 0.008) * 0.15
         p.opacity += Math.sin(t * p.opacitySpeed) * 0.004
 
-        if (p.opacity > 0.6) p.opacity = 0.6
-        if (p.opacity < 0.03) p.opacity = 0.03
+        if (p.opacity > 0.7) p.opacity = 0.7
+        if (p.opacity < 0.05) p.opacity = 0.05
 
         if (p.x < -10) p.x = w + 10
         if (p.x > w + 10) p.x = -10
@@ -165,14 +167,14 @@ export function AnimatedBackground() {
         }
         ctx.fill()
 
-        if (p.size > 1.5) {
+        if (p.size > 1.3) {
           ctx.beginPath()
           ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2)
 
           if (p.isGold) {
-            ctx.fillStyle = `rgba(201, 168, 76, ${p.opacity * 0.12})`
+            ctx.fillStyle = `rgba(201, 168, 76, ${p.opacity * 0.15})`
           } else {
-            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.1})`
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.15})`
           }
           ctx.fill()
         }
@@ -198,8 +200,8 @@ export function AnimatedBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.9 }}
+      className="fixed top-0 left-0 w-screen h-screen pointer-events-none z-0"
+      style={{ opacity: 1 }}
     />
   )
 }
