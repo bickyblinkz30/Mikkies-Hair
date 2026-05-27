@@ -7,18 +7,18 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
 const galleryItems = [
-  { title: "Box Braids", category: "Braiding", gradient: "from-purple-400 to-purple-600" },
-  { title: "Dreadlock Retwist", category: "Dreadlocks", gradient: "from-purple-500 to-pink-500" },
-  { title: "Precision Haircut", category: "Haircuts", gradient: "from-pink-400 to-purple-500" },
-  { title: "Balayage Color", category: "Coloring", gradient: "from-indigo-400 to-purple-600" },
-  { title: "Silk Press Style", category: "Styling", gradient: "from-amber-400 to-yellow-600" },
-  { title: "Passion Twists", category: "Braiding", gradient: "from-pink-500 to-purple-700" },
-  { title: "Cornrows", category: "Braiding", gradient: "from-purple-700 to-indigo-500" },
-  { title: "Dreadlock Installation", category: "Dreadlocks", gradient: "from-purple-500 to-indigo-600" },
-  { title: "Modern Crop", category: "Haircuts", gradient: "from-purple-400 to-pink-400" },
-  { title: "Bridal Updo", category: "Styling", gradient: "from-pink-500 to-purple-600" },
-  { title: "Full Color Service", category: "Coloring", gradient: "from-indigo-500 to-purple-700" },
-  { title: "Formal Waves", category: "Styling", gradient: "from-amber-500 to-yellow-700" },
+  { title: "Box Braids", category: "Braiding" },
+  { title: "Dreadlock Retwist", category: "Dreadlocks" },
+  { title: "Precision Haircut", category: "Haircuts" },
+  { title: "Balayage Color", category: "Coloring" },
+  { title: "Silk Press Style", category: "Styling" },
+  { title: "Passion Twists", category: "Braiding" },
+  { title: "Cornrows", category: "Braiding" },
+  { title: "Dreadlock Installation", category: "Dreadlocks" },
+  { title: "Modern Crop", category: "Haircuts" },
+  { title: "Bridal Updo", category: "Styling" },
+  { title: "Full Color Service", category: "Coloring" },
+  { title: "Formal Waves", category: "Styling" },
 ]
 
 const categories = ["All", "Braiding", "Dreadlocks", "Haircuts", "Coloring", "Styling"]
@@ -34,7 +34,7 @@ export default function GalleryPage() {
   })
 
   return (
-    <div className="py-16 sm:py-24">
+    <div className="py-16 sm:py-24 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -42,10 +42,11 @@ export default function GalleryPage() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h1 className="font-serif text-4xl font-bold tracking-tight text-[#D4AF37] sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Our Gallery
           </h1>
-          <p className="mt-4 text-lg text-[#888888]">
+          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
+          <p className="mt-4 text-lg text-white/50">
             Browse through our portfolio of transformations
           </p>
         </motion.div>
@@ -63,9 +64,9 @@ export default function GalleryPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={cn(
                   "rounded-full px-5 py-2 text-sm font-medium transition-all duration-300",
-                  activeCategory === cat
-                    ? "bg-[#D4AF37] text-black"
-                    : "bg-[#111111] text-[#888888] hover:bg-[#1a1a1a] hover:text-[#F5F5F5]"
+                    activeCategory === cat
+                      ? "bg-[#C9A84C]/20 text-[#C9A84C] border border-[#C9A84C]/40"
+                      : "bg-[#111] text-white/50 hover:bg-[#1a1a1a] hover:text-white"
                 )}
               >
                 {cat}
@@ -74,12 +75,12 @@ export default function GalleryPage() {
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#888888]" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
             <Input
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full border-[#1f1f1f] bg-[#111111] pl-9 text-[#F5F5F5] placeholder:text-[#888888] focus-visible:ring-[#D4AF37] sm:w-64"
+              className="w-full border border-white/10 bg-[#111] pl-9 text-white placeholder:text-white/30 focus-visible:ring-[#C9A84C] sm:w-64"
             />
           </div>
         </motion.div>
@@ -102,17 +103,16 @@ export default function GalleryPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
                     className={cn(
-                      "group relative aspect-square cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br transition-all duration-300 hover:scale-[1.03] hover:border hover:border-[#D4AF37] hover:shadow-[0_0_25px_rgba(212,175,55,0.2)]",
-                      item.gradient
+                      "group relative aspect-square cursor-pointer overflow-hidden rounded-xl bg-[#111] border border-white/10 transition-all duration-300 hover:scale-[1.03] hover:border-[#C9A84C]/50 hover:shadow-[0_0_25px_rgba(201,168,76,0.15)]"
                     )}
                   >
                     <div className="flex h-full items-center justify-center">
-                      <Scissors className="h-12 w-12 text-white/20 transition-transform duration-300 group-hover:scale-110 group-hover:text-white/40" />
+                      <Scissors className="h-12 w-12 text-white/10 transition-transform duration-300 group-hover:scale-110 group-hover:text-white/30" />
                     </div>
                     <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4">
                       <div>
                         <p className="text-sm font-medium text-white">{item.title}</p>
-                        <p className="text-xs text-white/60">{item.category}</p>
+                        <p className="text-xs text-white/50">{item.category}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -125,7 +125,7 @@ export default function GalleryPage() {
                 exit={{ opacity: 0 }}
                 className="mt-16 text-center"
               >
-                <p className="text-[#888888]">No results found.</p>
+                <p className="text-white/50">No results found.</p>
               </motion.div>
             )}
           </AnimatePresence>

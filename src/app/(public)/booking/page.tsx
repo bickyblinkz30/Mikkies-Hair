@@ -99,13 +99,14 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen py-16 sm:py-24">
+    <div className="min-h-screen py-16 sm:py-24 relative z-10">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h1 className="font-serif text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Book Your Appointment
           </h1>
-          <p className="mt-4 text-lg text-[#888]">
+          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
+          <p className="mt-4 text-lg text-white/50">
             Select your service, pick a date and time, and confirm your booking.
           </p>
         </div>
@@ -118,15 +119,15 @@ export default function BookingPage() {
                   <div
                     className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium transition-all duration-300 ${
                       i <= step
-                        ? "bg-[#D4AF37] text-black"
-                        : "bg-[#111] text-[#555]"
+                        ? "bg-[#C9A84C] text-black"
+                        : "bg-[#111] text-white/30"
                     }`}
                   >
                     {i < step ? <Check className="h-4 w-4" /> : i + 1}
                   </div>
                   <span
                     className={`mt-2 text-xs font-medium transition-colors duration-300 ${
-                      i <= step ? "text-[#D4AF37]" : "text-[#555]"
+                      i <= step ? "text-[#C9A84C]" : "text-white/30"
                     }`}
                   >
                     {label}
@@ -135,7 +136,7 @@ export default function BookingPage() {
                 {i < STEPS.length - 1 && (
                   <div
                     className={`mx-3 h-0.5 w-10 sm:w-16 transition-colors duration-300 ${
-                      i < step ? "bg-[#D4AF37]" : "bg-[#1f1f1f]"
+                      i < step ? "bg-[#C9A84C]" : "bg-white/10"
                     }`}
                   />
                 )}
@@ -144,15 +145,15 @@ export default function BookingPage() {
           </div>
         </div>
 
-        <div className="relative mt-10 overflow-hidden rounded-xl border border-[#1f1f1f] bg-[#0a0a0a] p-6 sm:p-8">
+        <div className="relative mt-10 overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] p-6 sm:p-8">
           {step < 3 && (
             <div className="mb-6">
-              <h2 className="font-serif text-xl text-[#D4AF37]">
+              <h2 className="font-serif text-xl text-[#C9A84C]">
                 {step === 0 && "Choose a Service"}
                 {step === 1 && "Pick Date & Time"}
                 {step === 2 && "Your Information"}
               </h2>
-              <div className="mt-2 h-px w-12 bg-[#D4AF37]/50" />
+              <div className="mt-2 h-px w-12 bg-[#C9A84C]/50" />
             </div>
           )}
 
@@ -209,13 +210,13 @@ export default function BookingPage() {
           </AnimatePresence>
 
           {step < 3 && (
-            <div className="mt-8 flex items-center justify-between border-t border-[#1f1f1f] pt-6">
+            <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
               <Button
                 type="button"
                 variant="outline"
                 onClick={goBack}
                 disabled={step === 0}
-                className="gap-2 border-[#1f1f1f] text-[#888] hover:bg-[#111] hover:text-[#D4AF37]"
+                className="gap-2 border-white/10 text-white/50 hover:bg-[#111] hover:text-white"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Back
@@ -224,7 +225,7 @@ export default function BookingPage() {
                 type="button"
                 onClick={goNext}
                 disabled={!canProceed()}
-                className="gap-2 bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90"
+                className="gap-2 bg-[#C9A84C] text-black hover:bg-[#C9A84C]/90"
               >
                 Continue
                 <ChevronRight className="h-4 w-4" />
@@ -233,9 +234,9 @@ export default function BookingPage() {
           )}
         </div>
 
-        <div className="mt-6 rounded-lg border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-4 text-center text-sm">
-          <p className="font-medium text-[#D4AF37]">Cash payment only at this time</p>
-          <p className="mt-1 text-[#888]">
+        <div className="mt-6 rounded-lg border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-4 text-center text-sm">
+          <p className="font-medium text-[#C9A84C]">Cash payment only at this time</p>
+          <p className="mt-1 text-white/50">
             Please pay in cash at the time of your appointment. Your booking will be confirmed by the stylist.
           </p>
         </div>

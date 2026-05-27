@@ -27,7 +27,7 @@ export function ClientInfoForm({
     <div className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="clientName" className="text-sm font-medium text-[#D4AF37]">
+          <label htmlFor="clientName" className="text-sm font-medium text-[#C9A84C]">
             Full Name
           </label>
           <input
@@ -38,15 +38,15 @@ export function ClientInfoForm({
             onChange={(e) => onNameChange(e.target.value)}
             required
             className={cn(
-              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
-              "placeholder:text-[#555]",
-              "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-white",
+              "placeholder:text-white/30",
+              "border-white/10 focus:border-[#C9A84C] focus:shadow-[0_0_15px_-5px_rgba(201,168,76,0.2)]",
               "focus:outline-none transition-all duration-200"
             )}
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="clientEmail" className="text-sm font-medium text-[#D4AF37]">
+          <label htmlFor="clientEmail" className="text-sm font-medium text-[#C9A84C]">
             Email
           </label>
           <input
@@ -58,9 +58,9 @@ export function ClientInfoForm({
             onChange={(e) => onEmailChange(e.target.value)}
             required
             className={cn(
-              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
-              "placeholder:text-[#555]",
-              "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-white",
+              "placeholder:text-white/30",
+              "border-white/10 focus:border-[#C9A84C] focus:shadow-[0_0_15px_-5px_rgba(201,168,76,0.2)]",
               "focus:outline-none transition-all duration-200"
             )}
           />
@@ -68,7 +68,7 @@ export function ClientInfoForm({
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="clientPhone" className="text-sm font-medium text-[#D4AF37]">
+        <label htmlFor="clientPhone" className="text-sm font-medium text-[#C9A84C]">
           Phone Number
         </label>
         <input
@@ -80,17 +80,17 @@ export function ClientInfoForm({
           onChange={(e) => onPhoneChange(e.target.value)}
           required
           className={cn(
-            "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
-            "placeholder:text-[#555]",
-            "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+            "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-white",
+            "placeholder:text-white/30",
+            "border-white/10 focus:border-[#C9A84C] focus:shadow-[0_0_15px_-5px_rgba(201,168,76,0.2)]",
             "focus:outline-none transition-all duration-200"
           )}
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="notes" className="text-sm font-medium text-[#D4AF37]">
-          Notes <span className="text-[#555]">(Optional)</span>
+        <label htmlFor="notes" className="text-sm font-medium text-[#C9A84C]">
+          Notes <span className="text-white/30">(Optional)</span>
         </label>
         <textarea
           id="notes"
@@ -100,9 +100,9 @@ export function ClientInfoForm({
           value={notes}
           onChange={(e) => onNotesChange(e.target.value)}
           className={cn(
-            "flex w-full rounded-lg border bg-[#0a0a0a] px-4 py-3 text-sm text-[#F5F5F5]",
-            "placeholder:text-[#555]",
-            "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+            "flex w-full rounded-lg border bg-[#0a0a0a] px-4 py-3 text-sm text-white",
+            "placeholder:text-white/30",
+            "border-white/10 focus:border-[#C9A84C] focus:shadow-[0_0_15px_-5px_rgba(201,168,76,0.2)]",
             "focus:outline-none transition-all duration-200 resize-none"
           )}
         />

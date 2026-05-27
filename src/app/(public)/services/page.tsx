@@ -2,11 +2,8 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import {
-  Scissors, Sparkles, Star, Award, Heart, Shield, Check, Quote,
-} from "lucide-react"
+import { Scissors, Sparkles, Wind, Stars, Palette } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 const services = [
   {
@@ -25,37 +22,37 @@ const services = [
     name: "Blow Dry",
     description: "Professional blow-dry styling for that perfect finish",
     category: "Styling",
-    icon: Star,
+    icon: Wind,
   },
   {
     name: "Hair Coloring",
     description: "Full color, highlights, balayage, and creative color",
     category: "Coloring",
-    icon: Award,
+    icon: Palette,
   },
   {
     name: "Hair Styling",
     description: "Custom styling for any occasion — from casual to red carpet",
     category: "Styling",
-    icon: Heart,
+    icon: Stars,
   },
   {
     name: "Braiding",
     description: "Expert braiding including box braids, cornrows, and passion twists",
     category: "Braiding",
-    icon: Shield,
+    icon: Scissors,
   },
   {
     name: "Wig Installation",
     description: "Professional wig installation and customization",
     category: "Installation",
-    icon: Check,
+    icon: Scissors,
   },
   {
     name: "Frontal Styling",
     description: "Expert frontal preparation, bleaching, and styling",
     category: "Styling",
-    icon: Quote,
+    icon: Scissors,
   },
 ]
 
@@ -76,7 +73,7 @@ const item = {
 
 export default function ServicesPage() {
   return (
-    <div className="py-16 sm:py-24">
+    <div className="py-16 sm:py-24 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -84,10 +81,11 @@ export default function ServicesPage() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h1 className="font-serif text-4xl font-bold tracking-tight text-[#D4AF37] sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Our Services
           </h1>
-          <p className="mt-4 text-lg text-[#888888]">
+          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
+          <p className="mt-4 text-lg text-white/50">
             Premium hair care tailored to your unique style
           </p>
         </motion.div>
@@ -105,21 +103,21 @@ export default function ServicesPage() {
               <motion.div
                 key={service.name}
                 variants={item}
-                className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[#D4AF37] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+                className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#111] p-6 transition-all duration-300 hover:border-[#C9A84C]/50 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(201,168,76,0.12)]"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#D4AF37]/10 text-[#D4AF37]">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#C9A84C]/10 text-[#C9A84C]">
                   <Icon className="h-6 w-6" />
                 </div>
 
-                <span className="inline-block rounded-full border border-[#D4AF37]/30 px-3 py-1 text-xs font-medium text-[#D4AF37]">
+                <span className="inline-block rounded-full border border-[#C9A84C]/30 px-3 py-1 text-xs font-medium text-[#C9A84C]">
                   {service.category}
                 </span>
 
-                <h3 className="mt-4 text-lg font-semibold text-[#F5F5F5]">
+                <h3 className="mt-4 text-lg font-semibold text-white">
                   {service.name}
                 </h3>
 
-                <p className="mt-2 text-sm leading-relaxed text-[#888888]">
+                <p className="mt-2 text-sm leading-relaxed text-white/50">
                   {service.description}
                 </p>
 
@@ -127,7 +125,7 @@ export default function ServicesPage() {
                   <Link href="/booking">
                     <Button
                       variant="outline"
-                      className="w-full border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black"
+                      className="w-full border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
                     >
                       Book Now
                     </Button>

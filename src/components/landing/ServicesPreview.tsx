@@ -1,30 +1,82 @@
 "use client"
 
-import Link from "next/link"
 import type { Variants } from "framer-motion"
 import { motion } from "framer-motion"
-import { Scissors, Braces, Palette, Sparkles, ArrowRight } from "lucide-react"
+
+const ScissorsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+    <path d="M18 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+    <path d="M6 4l12 16" />
+    <path d="M6 20l12-16" />
+  </svg>
+)
+
+const WaveIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 12c3-4 6 4 9 0s6-4 9 0" />
+    <path d="M3 6c3-4 6 4 9 0s6-4 9 0" />
+    <path d="M3 18c3-4 6 4 9 0s6-4 9 0" />
+  </svg>
+)
+
+const BlowDryIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2a8 8 0 0 0-8 8c0 3 2 6 4 8h8c2-2 4-5 4-8a8 8 0 0 0-8-8z" />
+    <path d="M8 18c0 2 1.5 4 4 4s4-2 4-4" />
+    <path d="M10 14c.5-1 1.5-1 2 0" />
+  </svg>
+)
+
+const ColorIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 3v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3" />
+    <path d="M5 9h14" />
+    <path d="M5 15h14" />
+    <circle cx="9" cy="6" r="1" fill="currentColor" />
+    <circle cx="15" cy="6" r="1" fill="currentColor" />
+  </svg>
+)
+
+const SparkleIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z" />
+    <path d="M9 4l1 3" />
+    <path d="M15 4l-1 3" />
+    <path d="M4 9l3 1" />
+    <path d="M20 9l-3 1" />
+    <path d="M9 20l1-3" />
+    <path d="M15 20l-1-3" />
+    <path d="M4 15l3-1" />
+    <path d="M20 15l-3-1" />
+  </svg>
+)
 
 const services = [
   {
-    title: "Hair Cutting & Styling",
-    description: "Precision cuts and custom styling tailored to your face shape and lifestyle.",
-    icon: Scissors,
+    title: "Hair Cut",
+    description: "Precision cutting tailored to your face shape and style preferences.",
+    Icon: ScissorsIcon,
   },
   {
-    title: "Braiding & Weaves",
-    description: "Expert braiding and weave installation with flawless finishes.",
-    icon: Braces,
+    title: "Hair Treatment",
+    description: "Deep conditioning, keratin treatments, and scalp therapy.",
+    Icon: WaveIcon,
+  },
+  {
+    title: "Blow Dry",
+    description: "Professional blow-dry styling for that perfect finish.",
+    Icon: BlowDryIcon,
   },
   {
     title: "Hair Coloring",
-    description: "Premium color treatments from subtle highlights to bold transformations.",
-    icon: Palette,
+    description: "Full color, highlights, balayage, and creative color services.",
+    Icon: ColorIcon,
   },
   {
-    title: "Treatments & Care",
-    description: "Deep conditioning and scalp treatments to restore your hair's natural vitality.",
-    icon: Sparkles,
+    title: "Hair Styling",
+    description: "Custom styling for any occasion — from casual to red carpet.",
+    Icon: SparkleIcon,
   },
 ]
 
@@ -37,7 +89,7 @@ const containerVariants: Variants = {
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
@@ -51,8 +103,7 @@ const itemVariants: Variants = {
 export function ServicesPreview() {
   return (
     <section className="relative py-24" id="services">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent pointer-events-none" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -63,10 +114,7 @@ export function ServicesPreview() {
           <h2 className="font-serif text-4xl tracking-wide text-white sm:text-5xl">
             Our Services
           </h2>
-          <div className="mx-auto mt-3 h-px w-20 bg-white/30" />
-          <p className="mt-4 text-lg text-white/50">
-            Premium hair care tailored to your unique style
-          </p>
+          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
         </motion.div>
 
         <motion.div
@@ -74,47 +122,28 @@ export function ServicesPreview() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="mt-14 grid gap-5 sm:grid-cols-2"
+          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
         >
-          {services.map((service) => (
-            <motion.div
-              key={service.title}
-              variants={itemVariants}
-              className="group relative cursor-pointer rounded-xl border border-white/10 bg-white/[0.03] p-8 transition-all duration-500 hover:-translate-y-1"
-            >
-              <div
-                className="absolute inset-0 rounded-xl opacity-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/0 transition-all duration-500 group-hover:opacity-100 group-hover:from-[#D4AF37]/0 group-hover:via-[#D4AF37]/[0.03] group-hover:to-[#D4AF37]/[0.06]"
-              />
-              <div className="absolute inset-0 rounded-xl border border-[#D4AF37]/0 transition-all duration-500 group-hover:border-[#D4AF37]/30 group-hover:shadow-[0_0_30px_-5px_rgba(212,175,55,0.2)]" />
-              <div className="relative z-10">
-                <div className="mb-5 flex h-10 w-10 items-center justify-center text-white/40 transition-all duration-500 group-hover:text-[#D4AF37] group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]">
-                  <service.icon className="h-5 w-5" />
+          {services.map((service) => {
+            const Icon = service.Icon
+            return (
+              <motion.div
+                key={service.title}
+                variants={itemVariants}
+                className="group rounded-xl border border-white/10 bg-[#111] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[#C9A84C]/40 hover:shadow-[0_0_30px_-5px_rgba(201,168,76,0.15)]"
+              >
+                <div className="mb-4 flex h-10 w-10 items-center justify-center text-[#C9A84C] transition-all duration-500">
+                  <Icon />
                 </div>
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-base font-semibold text-white">
                   {service.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/50">
                   {service.description}
                 </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12 text-center"
-        >
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors hover:text-white"
-          >
-            View All Services
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </section>

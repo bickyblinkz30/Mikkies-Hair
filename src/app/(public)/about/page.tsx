@@ -54,7 +54,7 @@ const timeline = [
 
 export default function AboutPage() {
   return (
-    <div className="py-16 sm:py-24">
+    <div className="py-16 sm:py-24 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -62,10 +62,11 @@ export default function AboutPage() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <h1 className="font-serif text-4xl font-bold tracking-tight text-[#D4AF37] sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Our Story
           </h1>
-          <p className="mt-4 text-lg text-[#888888]">
+          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
+          <p className="mt-4 text-lg text-white/50">
             Where artistry meets elegance — every strand tells a story
           </p>
         </motion.div>
@@ -76,12 +77,12 @@ export default function AboutPage() {
           className="mx-auto mt-20 max-w-4xl"
         >
           <div className="relative">
-            <Quote className="absolute -left-2 -top-8 h-12 w-12 text-[#D4AF37]/20" />
-            <p className="text-lg leading-relaxed text-[#F5F5F5]/90">
+            <Quote className="absolute -left-2 -top-8 h-12 w-12 text-[#C9A84C]/20" />
+            <p className="text-lg leading-relaxed text-white/80">
               Founded with a passion for transforming hair and boosting confidence,
               Mikkies Hair is more than a salon — it&apos;s an experience.
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-[#F5F5F5]/80">
+            <p className="mt-6 text-lg leading-relaxed text-white/70">
               Every appointment is crafted with care, precision, and an eye for
               artistry. We believe great hair is the ultimate accessory.
             </p>
@@ -93,11 +94,11 @@ export default function AboutPage() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mx-auto mt-20 max-w-3xl"
         >
-          <div className="rounded-xl border border-[#D4AF37]/40 bg-black/50 p-8 text-center sm:p-12">
-            <h2 className="font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
+          <div className="rounded-xl border border-[#C9A84C]/30 bg-black/60 p-8 text-center sm:p-12">
+            <h2 className="font-serif text-2xl font-bold text-[#C9A84C] sm:text-3xl">
               Our Mission
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-[#F5F5F5]/85">
+            <p className="mt-4 text-lg leading-relaxed text-white/80">
               To provide exceptional hair care in a luxurious, welcoming environment
               where every client leaves feeling beautiful and confident.
             </p>
@@ -111,7 +112,7 @@ export default function AboutPage() {
           viewport={{ once: true, margin: "-80px" }}
           className="mt-20"
         >
-          <h2 className="mb-12 text-center font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
+          <h2 className="mb-12 text-center font-serif text-2xl font-bold text-white sm:text-3xl">
             Our Values
           </h2>
           <div className="grid gap-6 sm:grid-cols-3">
@@ -121,15 +122,15 @@ export default function AboutPage() {
                 <motion.div
                   key={v.title}
                   variants={child}
-                  className="group rounded-xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:border-[#D4AF37]/60 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(212,175,55,0.1)]"
+                  className="group rounded-xl border border-white/10 bg-[#111] p-8 text-center transition-all duration-300 hover:border-[#C9A84C]/50 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(201,168,76,0.1)]"
                 >
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#D4AF37]/10 text-[#D4AF37] transition-transform duration-300 group-hover:scale-110">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#C9A84C]/10 text-[#C9A84C] transition-transform duration-300 group-hover:scale-110">
                     <Icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold text-[#F5F5F5]">
+                  <h3 className="mt-5 text-lg font-semibold text-white">
                     {v.title}
                   </h3>
-                  <p className="mt-2 text-sm text-[#888888]">
+                  <p className="mt-2 text-sm text-white/50">
                     {v.description}
                   </p>
                 </motion.div>
@@ -143,11 +144,11 @@ export default function AboutPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-20"
         >
-          <h2 className="mb-12 text-center font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
+          <h2 className="mb-12 text-center font-serif text-2xl font-bold text-white sm:text-3xl">
             Our Journey
           </h2>
           <div className="relative mx-auto max-w-3xl">
-            <div className="absolute left-[19px] top-0 h-full w-px bg-[#D4AF37]/30" />
+            <div className="absolute left-[19px] top-0 h-full w-px bg-[#C9A84C]/30" />
             <div className="space-y-10">
               {timeline.map((entry, i) => (
                 <motion.div
@@ -158,14 +159,14 @@ export default function AboutPage() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="relative flex items-start gap-6"
                 >
-                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/50 bg-black text-[#D4AF37] text-sm font-bold">
+                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#C9A84C]/50 bg-black text-[#C9A84C] text-sm font-bold">
                     {entry.year.slice(2)}
                   </div>
                   <div className="pt-1.5">
-                    <span className="text-xs font-semibold tracking-widest text-[#D4AF37]/70 uppercase">
+                    <span className="text-xs font-semibold tracking-widest text-[#C9A84C]/70 uppercase">
                       {entry.year}
                     </span>
-                    <p className="mt-1 text-[#F5F5F5]/80">{entry.event}</p>
+                    <p className="mt-1 text-white/70">{entry.event}</p>
                   </div>
                 </motion.div>
               ))}
@@ -178,14 +179,14 @@ export default function AboutPage() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-20 text-center"
         >
-          <h2 className="font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
+          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
             Ready to Experience the Difference?
           </h2>
-          <p className="mt-3 text-[#888888]">
+          <p className="mt-3 text-white/50">
             Book your appointment and let us transform your look.
           </p>
           <Link href="/booking" className="mt-8 inline-block">
-            <Button className="gap-2 bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90">
+            <Button className="gap-2 border border-white/30 bg-transparent text-white hover:bg-white/10">
               Book Your Appointment
               <ArrowRight className="h-4 w-4" />
             </Button>

@@ -1,238 +1,27 @@
 "use client"
 
-import { useMemo } from "react"
-import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-
-const rings = [
-  { size: 28, speed: 60, opacity: 0.15, borderWidth: 0.5 },
-  { size: 38, speed: -45, opacity: 0.1, borderWidth: 0.5 },
-  { size: 50, speed: 80, opacity: 0.07, borderWidth: 0.5 },
-  { size: 65, speed: -55, opacity: 0.05, borderWidth: 0.5 },
-  { size: 80, speed: 70, opacity: 0.03, borderWidth: 0.5 },
-]
-
-const particles = Array.from({ length: 30 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 2.5 + 0.5,
-}))
 
 export function HeroSection() {
-  const floatingParticles = useMemo(() => particles, [])
-
   return (
     <section className="relative min-h-screen overflow-hidden bg-black">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)]" />
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          {rings.map((ring, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full border border-white/30"
-              style={{
-                width: `${ring.size}vw`,
-                height: `${ring.size}vw`,
-                minWidth: `${ring.size * 3}px`,
-                minHeight: `${ring.size * 3}px`,
-                opacity: ring.opacity,
-                borderWidth: ring.borderWidth,
-              }}
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: Math.abs(ring.speed),
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-          {rings.map((ring, i) => (
-            <motion.div
-              key={`inner-${i}`}
-              className="absolute rounded-full border border-[#D4AF37]/20"
-              style={{
-                width: `${ring.size * 0.7}vw`,
-                height: `${ring.size * 0.7}vw`,
-                minWidth: `${ring.size * 2.1}px`,
-                minHeight: `${ring.size * 2.1}px`,
-                opacity: ring.opacity * 0.8,
-                borderWidth: ring.borderWidth,
-              }}
-              animate={{ rotate: -360 }}
-              transition={{
-                duration: Math.abs(ring.speed) * 0.7,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] min-w-[200px] min-h-[200px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle at 35% 35%, rgba(212,175,55,0.12) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)",
-            filter: "blur(30px)",
-          }}
-          animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.6, 0.9, 0.6],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30vw] h-[30vw] min-w-[150px] min-h-[150px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle at 65% 65%, rgba(212,175,55,0.06) 0%, transparent 60%)",
-            filter: "blur(50px)",
-          }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.4, 0.7, 0.4],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-
-        {floatingParticles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full bg-white"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-            }}
-            animate={{
-              opacity: [0, 1, 0.3, 1, 0],
-              scale: [0, 1, 0.8, 1, 0],
-              y: [0, -20, -40, -60, -80],
-              x: [0, 10, -5, 15, 0],
-            }}
-            transition={{
-              duration: 6 + Math.random() * 6,
-              repeat: Infinity,
-              delay: Math.random() * 8,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-
-        <motion.div
-          className="absolute top-0 left-0 w-48 h-full sm:w-72"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(255,255,255,0.02) 0%, transparent 100%)",
-            filter: "blur(40px)",
-            pointerEvents: "none",
-          }}
-          animate={{
-            x: [0, 10, 0, -5, 0],
-            opacity: [0.3, 0.5, 0.3, 0.4, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        <motion.div
-          className="absolute top-0 right-0 w-48 h-full sm:w-72"
-          style={{
-            background:
-              "linear-gradient(270deg, rgba(255,255,255,0.02) 0%, transparent 100%)",
-            filter: "blur(40px)",
-            pointerEvents: "none",
-          }}
-          animate={{
-            x: [0, -10, 0, 5, 0],
-            opacity: [0.3, 0.5, 0.3, 0.4, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-
-        <motion.div
-          className="absolute -top-20 -left-20 w-96 h-96 sm:w-[500px] sm:h-[500px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-            filter: "blur(60px)",
-            pointerEvents: "none",
-          }}
-          animate={{
-            x: [0, 30, 0, -20, 0],
-            y: [0, -20, 0, 20, 0],
-            scale: [1, 1.1, 1, 1.05, 1],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        <motion.div
-          className="absolute -bottom-20 -right-20 w-80 h-80 sm:w-[400px] sm:h-[400px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)",
-            filter: "blur(60px)",
-            pointerEvents: "none",
-          }}
-          animate={{
-            x: [0, -20, 0, 30, 0],
-            y: [0, 20, 0, -20, 0],
-            scale: [1, 1.08, 1, 1.12, 1],
-          }}
-          transition={{
-            duration: 14,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
-      </div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.15)_0%,transparent_70%)] blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-center"
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="flex flex-col items-center"
         >
-          <motion.div
-            className="relative inline-block"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 300 300"
-              className="w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]"
+              viewBox="0 0 400 400"
+              className="w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px]"
             >
               <defs>
-                <linearGradient id="heroMetal" x1="0" y1="0" x2="1" y2="1">
+                <linearGradient id="metalM" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stopColor="#FFFFFF" />
                   <stop offset="25%" stopColor="#E8E8E8" />
                   <stop offset="40%" stopColor="#D4D4D4" />
@@ -241,64 +30,101 @@ export function HeroSection() {
                   <stop offset="75%" stopColor="#E8E8E8" />
                   <stop offset="100%" stopColor="#FFFFFF" />
                 </linearGradient>
-                <filter id="heroGlow">
-                  <feGaussianBlur stdDeviation="2" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
+                <linearGradient id="goldFlare" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="transparent" />
+                  <stop offset="40%" stopColor="rgba(201,168,76,0.6)" />
+                  <stop offset="50%" stopColor="rgba(201,168,76,0.8)" />
+                  <stop offset="60%" stopColor="rgba(201,168,76,0.6)" />
+                  <stop offset="100%" stopColor="transparent" />
+                </linearGradient>
+                <radialGradient id="circleGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.06)" />
+                  <stop offset="70%" stopColor="rgba(255,255,255,0.02)" />
+                  <stop offset="100%" stopColor="transparent" />
+                </radialGradient>
               </defs>
+
+              {/* Outer concentric rings */}
+              <circle cx="200" cy="200" r="185" fill="none" stroke="rgba(192,192,192,0.15)" strokeWidth="0.5" />
+              <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(192,192,192,0.12)" strokeWidth="0.5" />
+              <circle cx="200" cy="200" r="165" fill="none" stroke="rgba(192,192,192,0.09)" strokeWidth="0.5" />
+              <circle cx="200" cy="200" r="155" fill="none" stroke="rgba(192,192,192,0.06)" strokeWidth="0.5" />
+              <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(192,192,192,0.04)" strokeWidth="0.5" />
+
+              {/* Glow behind circle */}
+              <circle cx="200" cy="200" r="140" fill="url(#circleGlow)" />
+
+              {/* Dark inner circle */}
+              <circle cx="200" cy="200" r="130" fill="#0a0a0a" stroke="rgba(192,192,192,0.25)" strokeWidth="1" />
+
+              {/* Silver ring */}
+              <circle cx="200" cy="200" r="125" fill="none" stroke="rgba(192,192,192,0.35)" strokeWidth="0.5" />
+
+              {/* Scissors (left side) */}
+              <g transform="translate(200, 200) rotate(-30) translate(-55, -15)" opacity="0.7">
+                <ellipse cx="0" cy="0" rx="18" ry="6" fill="none" stroke="#C0C0C0" strokeWidth="1.5" />
+                <ellipse cx="0" cy="30" rx="18" ry="6" fill="none" stroke="#C0C0C0" strokeWidth="1.5" />
+                <line x1="16" y1="6" x2="35" y2="40" stroke="#C0C0C0" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="16" y1="24" x2="35" y2="40" stroke="#C0C0C0" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="0" cy="15" r="3" fill="#C0C0C0" />
+              </g>
+
+              {/* Comb (right side) */}
+              <g transform="translate(200, 200) rotate(30) translate(20, -15)" opacity="0.7">
+                <rect x="0" y="0" width="40" height="4" rx="1" fill="none" stroke="#C0C0C0" strokeWidth="1.5" />
+                <line x1="5" y1="4" x2="5" y2="35" stroke="#C0C0C0" strokeWidth="1" />
+                <line x1="12" y1="4" x2="12" y2="35" stroke="#C0C0C0" strokeWidth="1" />
+                <line x1="19" y1="4" x2="19" y2="35" stroke="#C0C0C0" strokeWidth="1" />
+                <line x1="26" y1="4" x2="26" y2="35" stroke="#C0C0C0" strokeWidth="1" />
+                <line x1="33" y1="4" x2="33" y2="35" stroke="#C0C0C0" strokeWidth="1" />
+              </g>
+
+              {/* Large metallic M */}
               <text
-                x="150"
-                y="195"
+                x="200"
+                y="238"
                 fontFamily="Playfair Display, Georgia, serif"
-                fontSize="210"
+                fontSize="190"
                 fontWeight="700"
-                fill="url(#heroMetal)"
+                fill="url(#metalM)"
                 textAnchor="middle"
-                filter="url(#heroGlow)"
+                dominantBaseline="middle"
               >
                 M
               </text>
             </svg>
-          </motion.div>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-2 font-serif text-lg tracking-[0.15em] text-white/70 md:text-xl"
-          >
-            Radiate confidence. Stay cute.
-          </motion.p>
-
+          {/* Gold/amber lens flare glow */}
           <motion.div
+            className="mt-2 h-px w-48 sm:w-64"
+            style={{
+              background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.6), rgba(201,168,76,0.9), rgba(201,168,76,0.6), transparent)",
+            }}
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          />
+
+          {/* Brand name */}
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+            transition={{ duration: 0.8, delay: 1 }}
+            className="mt-6 font-serif text-4xl tracking-[0.2em] text-white sm:text-5xl md:text-6xl"
           >
-            <Link href="/booking">
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-white/50 hover:bg-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)]"
-              >
-                Book Appointment
-                <ArrowRight className="h-4 w-4" />
-              </motion.span>
-            </Link>
-            <Link href="/services">
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-3 text-sm font-medium text-white/70 transition-all duration-300 hover:border-white/40 hover:text-white"
-              >
-                Explore Services
-              </motion.span>
-            </Link>
-          </motion.div>
+            MIKKIES HAIR
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.3 }}
+            className="mt-3 font-serif italic text-lg tracking-wide text-white/60 sm:text-xl"
+          >
+            Radiate confidence. stay cute
+          </motion.p>
         </motion.div>
       </div>
     </section>

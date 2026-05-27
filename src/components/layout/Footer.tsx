@@ -1,13 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { Scissors } from "lucide-react"
 
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
+  { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
 ]
 
@@ -17,29 +16,51 @@ const serviceLinks = [
   { label: "Blow Dry", href: "/services" },
   { label: "Hair Coloring", href: "/services" },
   { label: "Hair Styling", href: "/services" },
-  { label: "Braiding", href: "/services" },
-  { label: "Wig Installation", href: "/services" },
 ]
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#D4AF37]/20 bg-black">
+    <footer className="border-t border-white/10 bg-black">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D4AF37] transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                <Scissors className="h-5 w-5 text-black" />
-              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 100 100"
+                fill="none"
+              >
+                <defs>
+                  <linearGradient id="footerMetal" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="35%" stopColor="#E0E0E0" />
+                    <stop offset="50%" stopColor="#C0C0C0" />
+                    <stop offset="65%" stopColor="#E0E0E0" />
+                    <stop offset="100%" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
+                <text
+                  x="50"
+                  y="68"
+                  fontFamily="Playfair Display, Georgia, serif"
+                  fontSize="80"
+                  fontWeight="700"
+                  fill="url(#footerMetal)"
+                  textAnchor="middle"
+                >
+                  M
+                </text>
+              </svg>
               <span className="font-serif text-xl font-bold tracking-wide text-white">
-                Mikkies{" "}
-                <span className="text-[#D4AF37]">Hair</span>
+                Mikkies Hair
               </span>
             </Link>
-            <p className="mt-4 text-sm leading-relaxed text-[#888888]">
+            <p className="mt-4 text-sm leading-relaxed text-white/50">
               Radiate confidence. Stay cute.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-[#666666]">
+            <p className="mt-3 text-sm leading-relaxed text-white/30">
               Premium hair salon dedicated to bringing your vision to life with artistry,
               precision, and the highest standard of care.
             </p>
@@ -54,7 +75,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#888888] transition-colors duration-200 hover:text-[#D4AF37]"
+                    className="text-sm text-white/50 transition-colors duration-200 hover:text-[#C9A84C]"
                   >
                     {link.label}
                   </Link>
@@ -72,7 +93,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#888888] transition-colors duration-200 hover:text-[#D4AF37]"
+                    className="text-sm text-white/50 transition-colors duration-200 hover:text-[#C9A84C]"
                   >
                     {link.label}
                   </Link>
@@ -88,7 +109,7 @@ export function Footer() {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#1f1f1f] text-[#888888] transition-all duration-200 hover:border-[#D4AF37] hover:text-[#D4AF37] hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="Instagram"
               >
                 <svg
@@ -109,7 +130,7 @@ export function Footer() {
               </a>
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#1f1f1f] text-[#888888] transition-all duration-200 hover:border-[#D4AF37] hover:text-[#D4AF37] hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="Facebook"
               >
                 <svg
@@ -128,7 +149,7 @@ export function Footer() {
               </a>
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#1f1f1f] text-[#888888] transition-all duration-200 hover:border-[#D4AF37] hover:text-[#D4AF37] hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="X (Twitter)"
               >
                 <svg
@@ -147,19 +168,19 @@ export function Footer() {
                 </svg>
               </a>
             </div>
-            <div className="mt-6 h-px w-12 bg-[#D4AF37]/40" />
-            <p className="mt-4 text-sm text-[#888888]">
+            <div className="mt-6 h-px w-12 bg-[#C9A84C]/40" />
+            <p className="mt-4 text-sm text-white/50">
               hello@mikkieshair.com
             </p>
-            <p className="mt-1 text-sm text-[#888888]">
+            <p className="mt-1 text-sm text-white/50">
               +1 (555) 123-4567
             </p>
           </div>
         </div>
 
         <div className="relative mt-12 pt-8">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
-          <p className="text-center text-sm text-[#666666]">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <p className="text-center text-sm text-white/30">
             &copy; {new Date().getFullYear()} Mikkies Hair. All rights reserved.
           </p>
         </div>
