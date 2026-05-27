@@ -1,9 +1,9 @@
-export const SITE_NAME = "StyleSlot"
-export const SITE_DESCRIPTION = "Premium beauty & salon booking platform"
-export const SITE_URL = "https://styleslot.vercel.app"
+export const SITE_NAME = "Mikkies Hair"
+export const SITE_DESCRIPTION = "Premium salon experience — Radiate confidence. Stay cute."
+export const SITE_URL = "https://mikkies-hair.vercel.app"
 
-export const STYLIST_NAME = "StyleSlot Stylist"
-export const STYLIST_EMAIL = "stylist@styleslot.com"
+export const STYLIST_NAME = "Mikkies"
+export const STYLIST_EMAIL = "hello@mikkieshair.com"
 export const STYLIST_PHONE = "+1 (555) 123-4567"
 
 export const BUSINESS_HOURS = {
@@ -24,7 +24,7 @@ export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Book Now", href: "/booking" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const
 

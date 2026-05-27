@@ -1,30 +1,30 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Playfair_Display, Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/sonner"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
 })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 })
 
 export const metadata: Metadata = {
-  title: "StyleSlot | Premium Salon Booking Platform",
+  title: "Mikkies Hair | Premium Salon Experience",
   description:
-    "Book appointments with top braiders, dreadlock stylists, barbers, and beauty professionals. Instant booking, no back-and-forth.",
+    "Radiate confidence. Stay cute. Experience luxury hair care at Mikkies Hair — where every strand tells a story.",
   keywords: [
-    "salon booking",
+    "hair salon",
     "braids",
     "dreadlocks",
-    "barber",
-    "hair",
-    "beauty",
-    "appointment",
+    "hair coloring",
+    "wig installation",
+    "Mikkies Hair",
+    "premium salon",
   ],
 }
 
@@ -34,10 +34,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-background font-sans antialiased">
+        <div className="noise-overlay" />
         {children}
-        <Toaster />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: "#111",
+              border: "1px solid #D4AF37",
+              color: "#F5F5F5",
+            },
+          }}
+        />
       </body>
     </html>
   )

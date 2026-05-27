@@ -1,7 +1,6 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 
 interface ClientInfoFormProps {
   clientName: string
@@ -25,22 +24,32 @@ export function ClientInfoForm({
   onNotesChange,
 }: ClientInfoFormProps) {
   return (
-    <div className="space-y-5">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <div className="space-y-6">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="clientName">Full Name</Label>
-          <Input
+          <label htmlFor="clientName" className="text-sm font-medium text-[#D4AF37]">
+            Full Name
+          </label>
+          <input
             id="clientName"
             name="clientName"
             placeholder="Your full name"
             value={clientName}
             onChange={(e) => onNameChange(e.target.value)}
             required
+            className={cn(
+              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
+              "placeholder:text-[#555]",
+              "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+              "focus:outline-none transition-all duration-200"
+            )}
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="clientEmail">Email</Label>
-          <Input
+          <label htmlFor="clientEmail" className="text-sm font-medium text-[#D4AF37]">
+            Email
+          </label>
+          <input
             id="clientEmail"
             name="clientEmail"
             type="email"
@@ -48,13 +57,21 @@ export function ClientInfoForm({
             value={clientEmail}
             onChange={(e) => onEmailChange(e.target.value)}
             required
+            className={cn(
+              "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
+              "placeholder:text-[#555]",
+              "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+              "focus:outline-none transition-all duration-200"
+            )}
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="clientPhone">Phone Number</Label>
-        <Input
+        <label htmlFor="clientPhone" className="text-sm font-medium text-[#D4AF37]">
+          Phone Number
+        </label>
+        <input
           id="clientPhone"
           name="clientPhone"
           type="tel"
@@ -62,19 +79,32 @@ export function ClientInfoForm({
           value={clientPhone}
           onChange={(e) => onPhoneChange(e.target.value)}
           required
+          className={cn(
+            "flex h-11 w-full rounded-lg border bg-[#0a0a0a] px-4 py-2 text-sm text-[#F5F5F5]",
+            "placeholder:text-[#555]",
+            "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+            "focus:outline-none transition-all duration-200"
+          )}
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="notes">Notes (Optional)</Label>
+        <label htmlFor="notes" className="text-sm font-medium text-[#D4AF37]">
+          Notes <span className="text-[#555]">(Optional)</span>
+        </label>
         <textarea
           id="notes"
           name="notes"
           rows={3}
-          className="flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           placeholder="Any special requests or additional information..."
           value={notes}
           onChange={(e) => onNotesChange(e.target.value)}
+          className={cn(
+            "flex w-full rounded-lg border bg-[#0a0a0a] px-4 py-3 text-sm text-[#F5F5F5]",
+            "placeholder:text-[#555]",
+            "border-[#1f1f1f] focus:border-[#D4AF37] focus:shadow-[0_0_15px_-5px_rgba(212,175,55,0.2)]",
+            "focus:outline-none transition-all duration-200 resize-none"
+          )}
         />
       </div>
     </div>

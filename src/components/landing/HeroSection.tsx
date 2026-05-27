@@ -1,96 +1,142 @@
 "use client"
 
+import { useMemo } from "react"
 import Link from "next/link"
-import { ArrowRight, Sparkles, Scissors, CalendarCheck, ShieldCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion"
+import { ArrowRight } from "lucide-react"
+
+const rings = [
+  {
+    size: "h-72 w-72",
+    position: "-top-20 -left-20",
+    delay: 0,
+    duration: 20,
+    opacity: 0.15,
+  },
+  {
+    size: "h-96 w-96",
+    position: "top-1/3 -right-32",
+    delay: 5,
+    duration: 25,
+    opacity: 0.1,
+  },
+  {
+    size: "h-64 w-64",
+    position: "bottom-20 left-1/2",
+    delay: 10,
+    duration: 18,
+    opacity: 0.12,
+  },
+]
+
+const particles = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  delay: Math.random() * 8,
+  duration: Math.random() * 10 + 15,
+}))
 
 export function HeroSection() {
+  const floatingParticles = useMemo(() => particles, [])
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#6D28D9] via-[#8B5CF6] to-[#111827]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
+    <section className="relative min-h-screen overflow-hidden bg-background">
+      <div className="absolute inset-0">
+        {rings.map((ring) => (
+          <motion.div
+            key={ring.delay}
+            className={`absolute ${ring.position} ${ring.size} rounded-full border border-[#D4AF37]/30`}
+            style={{ opacity: ring.opacity }}
+            animate={{ rotate: 360 }}
+            
+          />
+        ))}
+        {rings.map((ring) => (
+          <motion.div
+            key={`inner-${ring.delay}`}
+            className={`absolute ${ring.position} ${ring.size} rounded-full border border-[#D4AF37]/10`}
+            style={{ opacity: ring.opacity, transform: "scale(0.7)" }}
+            animate={{ rotate: -360 }}
+            
+          />
+        ))}
+        {floatingParticles.map((p) => (
+          <motion.div
+            key={p.id}
+            className="absolute rounded-full bg-[#D4AF37]"
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              width: p.size,
+              height: p.size,
+              opacity: 0,
+            }}
+            animate={{
+              opacity: [0, 0.8, 0],
+              y: [0, -30, -60],
+              x: [0, 15, 0],
+            }}
+            
+          />
+        ))}
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm text-white backdrop-blur-sm">
-              <Sparkles className="h-4 w-4" />
-              Premium Beauty Booking Platform
-            </div>
+      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          
+          className="text-center"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="font-serif text-7xl tracking-wide text-foreground md:text-8xl"
+          >
+            <span className="bg-gradient-to-r from-[#D4AF37] via-[#F5E6A3] to-[#D4AF37] bg-clip-text text-transparent">
+              Mikkies Hair
+            </span>
+          </motion.h1>
 
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Your Perfect Style,{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-200">
-                One Click Away
-              </span>
-            </h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-6 text-lg text-[#D4AF37]/80 md:text-xl"
+          >
+            Radiate confidence. Stay cute.
+          </motion.p>
 
-            <p className="max-w-lg text-lg text-purple-100">
-              Book appointments with top braiders, dreadlock stylists, barbers,
-              and beauty professionals. No more back-and-forth — just instant
-              booking.
-            </p>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/booking">
-                <Button
-                  size="lg"
-                  className="w-full gap-2 bg-white text-primary hover:bg-purple-50 sm:w-auto"
-                >
-                  Book Appointment
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full border-white/30 text-white hover:bg-white/10 sm:w-auto"
-                >
-                  View Services
-                </Button>
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap gap-6 pt-4">
-              {[
-                { icon: Scissors, text: "Expert Stylists" },
-                { icon: CalendarCheck, text: "Instant Booking" },
-                { icon: ShieldCheck, text: "Secure & Easy" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-2 text-sm text-purple-100">
-                  <item.icon className="h-4 w-4" />
-                  {item.text}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hidden lg:block">
-            <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-purple-300/20 to-pink-300/20 p-8 backdrop-blur-sm">
-                <div className="flex h-full items-center justify-center">
-                  <div className="grid grid-cols-2 gap-4">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="aspect-square rounded-xl bg-white/10 backdrop-blur-sm"
-                      >
-                        <div className="flex h-full items-center justify-center">
-                          <Scissors className="h-8 w-8 text-white/40" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 rounded-xl border border-white/20 bg-white/10 px-6 py-4 backdrop-blur-sm">
-                <p className="text-2xl font-bold text-white">500+</p>
-                <p className="text-sm text-purple-100">Happy Clients</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          >
+            <Link href="/booking">
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-8 py-3 text-sm font-medium text-black transition-colors hover:bg-[#C4A030]"
+              >
+                Book Appointment
+                <ArrowRight className="h-4 w-4" />
+              </motion.span>
+            </Link>
+            <Link href="/services">
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37] px-8 py-3 text-sm font-medium text-[#D4AF37] transition-colors hover:bg-[#D4AF37]/10"
+              >
+                Explore Services
+              </motion.span>
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )

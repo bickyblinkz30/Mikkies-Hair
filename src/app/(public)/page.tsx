@@ -1,17 +1,19 @@
 import { HeroSection } from "@/components/landing/HeroSection"
-import { ServicesSection } from "@/components/landing/ServicesSection"
-import { GallerySection } from "@/components/landing/GallerySection"
+import { ServicesPreview } from "@/components/landing/ServicesPreview"
+import { WhyChooseUs } from "@/components/landing/WhyChooseUs"
+import { GalleryPreview } from "@/components/landing/GalleryPreview"
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection"
-import { BookingCTA } from "@/components/landing/BookingSection"
+import { CTABanner } from "@/components/landing/CTABanner"
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <ServicesSection />
-      <GallerySection />
+      <ServicesPreview />
+      <WhyChooseUs />
+      <GalleryPreview />
       <TestimonialsSection />
-      <BookingCTA />
+      <CTABanner />
     </>
   )
 }

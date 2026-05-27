@@ -1,20 +1,24 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star } from "lucide-react"
+import { Gem, Users, Crown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-const testimonials = [
+const reasons = [
   {
-    name: "Sarah J.",
-    quote: "Absolutely transformed my hair! The attention to detail was incredible.",
+    title: "Premium Quality",
+    description: "We use only the finest products for your hair, ensuring every treatment delivers exceptional results.",
+    icon: Gem,
   },
   {
-    name: "Michelle T.",
-    quote: "The most luxurious salon experience I've ever had. Pure excellence.",
+    title: "Expert Stylists",
+    description: "Years of experience and continuous education keep our team at the forefront of hair artistry.",
+    icon: Users,
   },
   {
-    name: "Keisha R.",
-    quote: "My go-to place for all my hair needs. Professional, clean, and stunning results.",
+    title: "Luxury Experience",
+    description: "From consultation to finish, every moment matters. Relax and indulge in a setting designed for you.",
+    icon: Crown,
   },
 ]
 
@@ -34,7 +38,7 @@ const itemVariants = {
   },
 }
 
-export function TestimonialsSection() {
+export function WhyChooseUs() {
   return (
     <section className="border-t border-[#1f1f1f] py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -46,7 +50,7 @@ export function TestimonialsSection() {
           className="mx-auto max-w-2xl text-center"
         >
           <h2 className="font-serif text-4xl tracking-wide text-foreground sm:text-5xl">
-            What Our Clients Say
+            Why Mikkies Hair
           </h2>
           <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#D4AF37]" />
         </motion.div>
@@ -58,25 +62,20 @@ export function TestimonialsSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="mt-14 grid gap-6 md:grid-cols-3"
         >
-          {testimonials.map((t) => (
+          {reasons.map((reason) => (
             <motion.div
-              key={t.name}
+              key={reason.title}
               variants={itemVariants}
-              className="rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:border-[#D4AF37]/40"
+              className="group rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:border-[#D4AF37]/40 hover:-translate-y-1"
             >
-              <div className="mb-4 flex gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]"
-                  />
-                ))}
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#D4AF37]/10 text-[#D4AF37] transition-colors group-hover:bg-[#D4AF37]/20">
+                <reason.icon className="h-6 w-6" />
               </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <p className="mt-4 text-sm font-medium text-[#D4AF37]">
-                — {t.name}
+              <h3 className="text-lg font-semibold text-foreground">
+                {reason.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {reason.description}
               </p>
             </motion.div>
           ))}

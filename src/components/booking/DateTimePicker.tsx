@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { format, addDays, isBefore, startOfToday } from "date-fns"
-import { ChevronLeft, ChevronRight, Clock } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { BUSINESS_HOURS } from "@/lib/constants"
@@ -33,15 +34,11 @@ export function DateTimePicker({
   const timeSlots: string[] = []
   for (let h = BUSINESS_HOURS.start; h < BUSINESS_HOURS.end; h++) {
     for (let m = 0; m < 60; m += BUSINESS_HOURS.interval) {
-      timeSlots.push(
-        `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`
-      )
+      timeSlots.push(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`)
     }
   }
 
-  const filteredTimeSlots = timeSlots.filter(
-    (slot) => !bookedSlots.includes(slot)
-  )
+  const filteredTimeSlots = timeSlots.filter((slot) => !bookedSlots.includes(slot))
 
   function isDateBlocked(date: Date) {
     const formatted = format(date, "yyyy-MM-dd")
@@ -49,16 +46,16 @@ export function DateTimePicker({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">Select Date</h3>
+          <h3 className="text-sm font-medium text-[#D4AF37]">Select Date</h3>
           <div className="flex gap-1">
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              onClick={() => setWeekOffset(weekOffset - 1)}
+              className="h-8 w-8 text-[#888] hover:bg-[#111] hover:text-[#D4AF37]"
+              onClick={() => setWeekOffset((o) => o - 1)}
               disabled={weekOffset === 0}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -66,20 +63,17 @@ export function DateTimePicker({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              onClick={() => setWeekOffset(weekOffset + 1)}
+              className="h-8 w-8 text-[#888] hover:bg-[#111] hover:text-[#D4AF37]"
+              onClick={() => setWeekOffset((o) => o + 1)}
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
-        <div className="mt-3 grid grid-cols-7 gap-1">
+        <div className="mt-4 grid grid-cols-7 gap-1.5">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div
-              key={day}
-              className="pb-1 text-center text-xs font-medium text-muted-foreground"
-            >
+            <div key={day} className="pb-2 text-center text-xs font-medium text-[#555]">
               {day}
             </div>
           ))}
@@ -94,23 +88,18 @@ export function DateTimePicker({
                 onClick={() => !blocked && onDateSelect(formatted)}
                 disabled={blocked}
                 className={cn(
-                  "flex flex-col items-center rounded-lg py-2 text-sm transition-colors",
+                  "flex flex-col items-center rounded-lg py-2.5 text-sm transition-all duration-200",
                   isSelected
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-[#D4AF37]/10 border border-[#D4AF37] text-[#D4AF37]"
                     : blocked
-                    ? "cursor-not-allowed text-muted-foreground/30"
-                    : "hover:bg-accent"
+                      ? "cursor-not-allowed text-[#333]"
+                      : "border border-transparent text-[#888] hover:border-[#D4AF37]/30 hover:bg-[#111]"
                 )}
               >
-                <span
-                  className={cn(
-                    "text-xs",
-                    isSelected ? "text-primary-foreground/70" : "text-muted-foreground"
-                  )}
-                >
+                <span className="text-[10px] uppercase tracking-wider">
                   {format(date, "MMM")}
                 </span>
-                <span className="text-base font-semibold">
+                <span className="mt-0.5 text-base font-semibold">
                   {format(date, "d")}
                 </span>
               </button>
@@ -119,31 +108,38 @@ export function DateTimePicker({
         </div>
       </div>
 
-      {selectedDate && (
-        <div>
-          <h3 className="text-sm font-medium">Select Time</h3>
-          <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5">
-            {filteredTimeSlots.map((time) => {
-              const isSelected = selectedTime === time
-              return (
-                <button
-                  key={time}
-                  onClick={() => onTimeSelect(time)}
-                  className={cn(
-                    "flex items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm transition-all",
-                    isSelected
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border hover:border-primary/50 hover:bg-accent"
-                  )}
-                >
-                  <Clock className="h-3 w-3" />
-                  {time}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {selectedDate && (
+          <motion.div
+            key={selectedDate}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h3 className="text-sm font-medium text-[#D4AF37]">Select Time</h3>
+            <div className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-5">
+              {filteredTimeSlots.map((time) => {
+                const isSelected = selectedTime === time
+                return (
+                  <button
+                    key={time}
+                    onClick={() => onTimeSelect(time)}
+                    className={cn(
+                      "rounded-lg border px-3 py-2.5 text-sm transition-all duration-200",
+                      isSelected
+                        ? "border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37]"
+                        : "border-[#1f1f1f] bg-[#0a0a0a] text-[#888] hover:border-[#D4AF37]/40 hover:bg-[#111]"
+                    )}
+                  >
+                    {time}
+                  </button>
+                )
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
