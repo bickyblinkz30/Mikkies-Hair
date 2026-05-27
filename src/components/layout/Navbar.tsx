@@ -19,37 +19,7 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex h-9 w-9 items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 100 100"
-              fill="none"
-            >
-              <defs>
-                <linearGradient id="navMetal" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="35%" stopColor="#E0E0E0" />
-                  <stop offset="50%" stopColor="#C0C0C0" />
-                  <stop offset="65%" stopColor="#E0E0E0" />
-                  <stop offset="100%" stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
-              <text
-                x="50"
-                y="68"
-                fontFamily="Playfair Display, Georgia, serif"
-                fontSize="80"
-                fontWeight="700"
-                fill="url(#navMetal)"
-                textAnchor="middle"
-              >
-                M
-              </text>
-            </svg>
-          </div>
+        <Link href="/" className="flex items-center">
           <span className="font-serif text-xl font-bold tracking-wide text-white">
             Mikkies Hair
           </span>
