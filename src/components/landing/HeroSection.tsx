@@ -14,93 +14,63 @@ export function HeroSection() {
           transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="flex flex-col items-center"
         >
-          <div className="relative">
+          <div className="relative w-[260px] h-[260px] sm:w-[330px] sm:h-[330px] md:w-[380px] md:h-[380px]">
+            {/* Concentric rings — SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 400 400"
-              className="w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px]"
+              className="absolute inset-0 w-full h-full"
             >
               <defs>
-                <linearGradient id="metalM" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="25%" stopColor="#E8E8E8" />
-                  <stop offset="40%" stopColor="#D4D4D4" />
-                  <stop offset="50%" stopColor="#B8B8B8" />
-                  <stop offset="60%" stopColor="#D4D4D4" />
-                  <stop offset="75%" stopColor="#E8E8E8" />
-                  <stop offset="100%" stopColor="#FFFFFF" />
-                </linearGradient>
-                <linearGradient id="metalTool" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="50%" stopColor="#C0C0C0" />
-                  <stop offset="100%" stopColor="#E0E0E0" />
-                </linearGradient>
                 <radialGradient id="circleGlow" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="rgba(255,255,255,0.08)" />
                   <stop offset="70%" stopColor="rgba(255,255,255,0.02)" />
                   <stop offset="100%" stopColor="transparent" />
                 </radialGradient>
               </defs>
-
-              {/* Outer concentric rings */}
               <circle cx="200" cy="200" r="185" fill="none" stroke="rgba(192,192,192,0.3)" strokeWidth="0.5" />
               <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(192,192,192,0.15)" strokeWidth="0.5" />
               <circle cx="200" cy="200" r="165" fill="none" stroke="rgba(192,192,192,0.08)" strokeWidth="0.5" />
               <circle cx="200" cy="200" r="155" fill="none" stroke="rgba(192,192,192,0.06)" strokeWidth="0.5" />
               <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(192,192,192,0.04)" strokeWidth="0.5" />
-
-              {/* Glow behind circle */}
               <circle cx="200" cy="200" r="140" fill="url(#circleGlow)" />
-
-              {/* Dark inner circle */}
               <circle cx="200" cy="200" r="132" fill="#0a0a0a" stroke="rgba(192,192,192,0.25)" strokeWidth="1" />
-
-              {/* Silver accent ring */}
               <circle cx="200" cy="200" r="126" fill="none" stroke="rgba(192,192,192,0.35)" strokeWidth="0.5" />
-
-              {/* ===== COMB — left side ===== */}
-              <g stroke="url(#metalTool)" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                {/* Comb body */}
-                <path d="M95 290 L95 118 Q95 106 105 106 L120 106 Q130 106 130 118 L130 290 Z" />
-                {/* Comb teeth pointing upward */}
-                <line x1="99" y1="118" x2="99" y2="76" />
-                <line x1="105" y1="118" x2="105" y2="76" />
-                <line x1="111" y1="118" x2="111" y2="76" />
-                <line x1="117" y1="118" x2="117" y2="76" />
-                <line x1="123" y1="118" x2="123" y2="76" />
-              </g>
-
-              {/* ===== SCISSORS — center-left ===== */}
-              <g stroke="url(#metalTool)" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                {/* Left handle ring */}
-                <ellipse cx="156" cy="282" rx="13" ry="9" />
-                {/* Right handle ring */}
-                <ellipse cx="184" cy="282" rx="13" ry="9" />
-                {/* Handle-to-pivot connectors */}
-                <path d="M150 276 L164 230" />
-                <path d="M190 276 L176 230" />
-                {/* Left blade */}
-                <path d="M164 230 L148 95 Q145 82 153 78" />
-                {/* Right blade */}
-                <path d="M176 230 L192 95 Q195 82 187 78" />
-                {/* Pivot screw */}
-                <circle cx="170" cy="230" r="3.5" fill="url(#metalTool)" />
-              </g>
-
-              {/* ===== LARGE METALLIC M — right side ===== */}
-              <text
-                x="262"
-                y="198"
-                fontFamily="'Playfair Display', Georgia, serif"
-                fontSize="180"
-                fontWeight="700"
-                fill="url(#metalM)"
-                textAnchor="middle"
-                dominantBaseline="middle"
-              >
-                M
-              </text>
             </svg>
+
+            {/* Emblem composition — M centered, scissors + comb grouped on left */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex items-center justify-center gap-0">
+                {/* Scissors + Comb group */}
+                <div className="flex items-center gap-0">
+                  <span
+                    className="text-[30px] sm:text-[38px] md:text-[45px] leading-none"
+                    style={{ filter: "brightness(0) invert(0.92)", marginRight: "-6px" }}
+                  >
+                    🪮
+                  </span>
+                  <span
+                    className="text-[30px] sm:text-[38px] md:text-[45px] leading-none"
+                    style={{ filter: "brightness(0) invert(0.92)" }}
+                  >
+                    ✂
+                  </span>
+                </div>
+                {/* M centered — overlaps into scissors via negative margin */}
+                <span
+                  className="font-serif font-bold text-[55px] sm:text-[70px] md:text-[80px] leading-none"
+                  style={{
+                    background: "linear-gradient(135deg, #FFFFFF 0%, #E8E8E8 25%, #D4D4D4 40%, #B8B8B8 50%, #D4D4D4 60%, #E8E8E8 75%, #FFFFFF 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    marginLeft: "-10px",
+                  }}
+                >
+                  M
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Gold/amber lens flare glow below circle */}
