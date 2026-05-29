@@ -138,4 +138,8 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
       </g>
     </svg>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ead20cca40aefd8726b110622ed7e8b7bfc2d120
