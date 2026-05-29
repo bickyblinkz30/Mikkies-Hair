@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { MiniEmblem } from "./MiniEmblem"
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -25,34 +26,7 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-3 group">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 100 100"
-                fill="none"
-              >
-                <defs>
-                  <linearGradient id="footerMetal" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#FFFFFF" />
-                    <stop offset="35%" stopColor="#E0E0E0" />
-                    <stop offset="50%" stopColor="#C0C0C0" />
-                    <stop offset="65%" stopColor="#E0E0E0" />
-                    <stop offset="100%" stopColor="#FFFFFF" />
-                  </linearGradient>
-                </defs>
-                <text
-                  x="50"
-                  y="68"
-                  fontFamily="Playfair Display, Georgia, serif"
-                  fontSize="80"
-                  fontWeight="700"
-                  fill="url(#footerMetal)"
-                  textAnchor="middle"
-                >
-                  M
-                </text>
-              </svg>
+              <MiniEmblem size={40} />
               <span className="font-serif text-xl font-bold tracking-wide text-white">
                 Mikkies Hair
               </span>
@@ -112,17 +86,7 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="Instagram"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
@@ -133,17 +97,7 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="Facebook"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
@@ -152,29 +106,15 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] hover:shadow-[0_0_15px_rgba(201,168,76,0.2)]"
                 aria-label="X (Twitter)"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
                   <path d="M4 20l6.768 -6.768m2.46 -2.46L20 4" />
                 </svg>
               </a>
             </div>
             <div className="mt-6 h-px w-12 bg-[#C9A84C]/40" />
-            <p className="mt-4 text-sm text-white/50">
-              hello@mikkieshair.com
-            </p>
-            <p className="mt-1 text-sm text-white/50">
-              +1 (555) 123-4567
-            </p>
+            <p className="mt-4 text-sm text-white/50">hello@mikkieshair.com</p>
+            <p className="mt-1 text-sm text-white/50">+1 (555) 123-4567</p>
           </div>
         </div>
 
