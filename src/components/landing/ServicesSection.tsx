@@ -4,7 +4,6 @@ import Link from "next/link"
 import {
   ArrowRight,
   Clock,
-  DollarSign,
   Scissors,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -14,42 +13,36 @@ const services = [
   {
     name: "Box Braids",
     duration: "180 min",
-    price: "$150",
     image: "bg-gradient-to-br from-purple-400 to-purple-600",
     icon: Scissors,
   },
   {
     name: "Dreadlock Retwist",
     duration: "90 min",
-    price: "$80",
     image: "bg-gradient-to-br from-purple-500 to-pink-500",
     icon: Scissors,
   },
   {
     name: "Haircut & Style",
     duration: "60 min",
-    price: "$45",
     image: "bg-gradient-to-br from-pink-400 to-purple-500",
     icon: Scissors,
   },
   {
     name: "Barber Cut",
     duration: "45 min",
-    price: "$35",
     image: "bg-gradient-to-br from-indigo-400 to-purple-600",
     icon: Scissors,
   },
   {
     name: "Full Color",
     duration: "120 min",
-    price: "$120",
     image: "bg-gradient-to-br from-purple-600 to-pink-400",
     icon: Scissors,
   },
   {
     name: "Passion Twists",
     duration: "180 min",
-    price: "$160",
     image: "bg-gradient-to-br from-pink-500 to-purple-700",
     icon: Scissors,
   },
@@ -87,16 +80,17 @@ export function ServicesSection() {
                     <Clock className="h-4 w-4" />
                     {service.duration}
                   </span>
-                  <span className="flex items-center gap-1 font-semibold text-primary">
-                    <DollarSign className="h-4 w-4" />
-                    {service.price}
+                </div>
+                <div className="mt-2">
+                  <span className="inline-block rounded-full border border-primary/30 px-3 py-0.5 text-xs font-medium text-primary">
+                    Consultation Required
                   </span>
                 </div>
               </CardContent>
               <CardFooter className="p-5 pt-0">
                 <Link href="/booking" className="w-full">
                   <Button variant="outline" className="w-full gap-2 group-hover:bg-primary group-hover:text-primary-foreground">
-                    Book Now
+                    Request Consultation
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>

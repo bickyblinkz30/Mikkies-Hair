@@ -13,18 +13,17 @@ export function BookingCTA() {
           <div className="relative flex flex-col items-center text-center">
             <CalendarCheck className="h-12 w-12 text-white/80" />
             <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
-              Ready to Book Your Appointment?
+              Ready to Transform Your Look?
             </h2>
             <p className="mt-4 max-w-lg text-purple-100">
-              Skip the back-and-forth. Book your style instantly and get
-              confirmed with a click.
+              Request a consultation and let us create the perfect style for you.
             </p>
             <Link href="/booking" className="mt-8">
               <Button
                 size="lg"
                 className="gap-2 bg-white text-primary hover:bg-purple-50"
               >
-                Book Now
+                Request Consultation
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

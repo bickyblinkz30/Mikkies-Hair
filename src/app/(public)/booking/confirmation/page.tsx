@@ -3,13 +3,12 @@
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 import { motion } from "framer-motion"
-import { CalendarDays, Clock, Scissors, CheckCircle } from "lucide-react"
+import { CalendarDays, Clock, Scissors, CheckCircle, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 function ConfirmationContent() {
   const searchParams = useSearchParams()
-  const name = searchParams.get("name") || "Valued Client"
   const service = searchParams.get("service") || "your service"
   const date = searchParams.get("date") || ""
   const time = searchParams.get("time") || ""
@@ -22,6 +21,8 @@ function ConfirmationContent() {
         day: "numeric",
       })
     : ""
+
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center py-16 relative z-10">
@@ -41,7 +42,7 @@ function ConfirmationContent() {
           transition={{ delay: 0.2, duration: 0.4 }}
           className="mt-6 font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl"
         >
-          Booking Confirmed!
+          Consultation Requested!
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -49,7 +50,7 @@ function ConfirmationContent() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className="mt-3 text-lg text-white/50"
         >
-          Your appointment has been booked successfully. We look forward to seeing you!
+          Your consultation request has been received. The stylist will review and contact you shortly.
         </motion.p>
 
         <motion.div
@@ -93,28 +94,24 @@ function ConfirmationContent() {
           </div>
 
           <div className="mt-6 rounded-lg border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-4 text-sm">
-            <p className="font-medium text-[#C9A84C]">Cash payment only at this time</p>
+            <p className="font-medium text-[#C9A84C]">Consultation Required</p>
             <p className="mt-1 text-white/50">
-              Please pay in cash at the time of your appointment.
+              Prices are determined during consultation. The stylist will reach out to discuss details and pricing.
             </p>
           </div>
 
           <div className="mt-6 space-y-2 text-sm text-white/30">
             <p className="flex items-center gap-2">
               <span className="h-1 w-1 rounded-full bg-[#C9A84C]" />
-              The stylist will review your booking
+              The stylist will review your consultation request
             </p>
             <p className="flex items-center gap-2">
               <span className="h-1 w-1 rounded-full bg-[#C9A84C]" />
-              You&apos;ll receive a confirmation email
+              You&apos;ll receive a response via WhatsApp or email
             </p>
             <p className="flex items-center gap-2">
               <span className="h-1 w-1 rounded-full bg-[#C9A84C]" />
-              Please arrive 10 minutes early
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-[#C9A84C]" />
-              Payment is due at the appointment
+              Pricing will be discussed during consultation
             </p>
           </div>
         </motion.div>
@@ -122,8 +119,26 @@ function ConfirmationContent() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+          className="mt-4"
+        >
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="w-full gap-2 bg-[#25D366] text-white hover:bg-[#25D366]/90 sm:w-auto">
+              <MessageCircle className="h-4 w-4" />
+              Contact Us on WhatsApp
+            </Button>
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
-          className="mt-8"
+          className="mt-4"
         >
           <Link href="/">
             <Button className="w-full border border-white/30 bg-transparent text-white hover:bg-white/10 sm:w-auto">

@@ -20,6 +20,7 @@ const iconMap: Record<string, React.ReactNode> = {
   CalendarCheck: <CalendarCheck className="h-5 w-5" />,
   Calendar: <Calendar className="h-5 w-5" />,
   Settings: <Settings className="h-5 w-5" />,
+  Admin: <LayoutDashboard className="h-5 w-5" />,
 }
 
 interface DashboardSidebarProps {

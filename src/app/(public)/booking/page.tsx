@@ -99,11 +99,11 @@ export default function BookingPage() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Book Your Appointment
+            Request a Consultation
           </h1>
           <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
           <p className="mt-4 text-lg text-white/50">
-            Select your service, pick a date and time, and confirm your booking.
+            Tell us what you need and we&apos;ll reach out to discuss your perfect style.
           </p>
         </div>
 
@@ -231,9 +231,9 @@ export default function BookingPage() {
         </div>
 
         <div className="mt-6 rounded-lg border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-4 text-center text-sm">
-          <p className="font-medium text-[#C9A84C]">Cash payment only at this time</p>
+          <p className="font-medium text-[#C9A84C]">Consultation Required</p>
           <p className="mt-1 text-white/50">
-            Please pay in cash at the time of your appointment. Your booking will be confirmed by the stylist.
+            Once submitted, the stylist will review your request and contact you to discuss pricing and details.
           </p>
         </div>
       </div>

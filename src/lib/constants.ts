@@ -14,11 +14,21 @@ export const BUSINESS_HOURS = {
 
 export const APPOINTMENT_STATUS = {
   PENDING: "pending",
+  PENDING_CONSULTATION: "pending_consultation",
+  CONSULTATION_IN_PROGRESS: "consultation_in_progress",
   CONFIRMED: "confirmed",
   DECLINED: "declined",
   CANCELLED: "cancelled",
   COMPLETED: "completed",
 } as const
+
+export const DECLINE_REASONS = [
+  "Scheduling Conflict",
+  "Customer Cancelled",
+  "Price Not Accepted",
+  "Service Unavailable",
+  "Other",
+] as const
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -32,6 +42,7 @@ export const DASHBOARD_LINKS = [
   { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
   { label: "Appointments", href: "/dashboard/appointments", icon: "CalendarCheck" },
   { label: "Calendar", href: "/dashboard/calendar", icon: "Calendar" },
+  { label: "Admin", href: "/admin", icon: "Admin" },
   { label: "Settings", href: "/dashboard/settings", icon: "Settings" },
 ] as const
 

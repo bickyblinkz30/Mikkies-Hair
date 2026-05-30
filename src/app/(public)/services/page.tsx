@@ -121,13 +121,18 @@ export default function ServicesPage() {
                   {service.description}
                 </p>
 
-                <div className="mt-6">
+                <div className="mt-4">
+                  <span className="inline-block rounded-full border border-[#C9A84C]/30 px-3 py-0.5 text-xs font-medium text-[#C9A84C]">
+                    Consultation Required
+                  </span>
+                </div>
+                <div className="mt-4">
                   <Link href="/booking">
                     <Button
                       variant="outline"
                       className="w-full border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
                     >
-                      Book Now
+                      Request Consultation
                     </Button>
                   </Link>
                 </div>

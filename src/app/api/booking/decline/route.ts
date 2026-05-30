@@ -9,25 +9,25 @@ export async function GET(request: NextRequest) {
 
   if (!id || !token) {
     return NextResponse.redirect(
-      new URL("/booking?error=invalid-link", request.url)
+      new URL("/booking/confirmation?error=invalid-link", request.url)
     )
   }
 
   const valid = await verifyToken(id, token)
   if (!valid) {
     return NextResponse.redirect(
-      new URL("/booking?error=invalid-link", request.url)
+      new URL("/booking/confirmation?error=invalid-link", request.url)
     )
   }
 
   try {
     await declineAppointment(id)
     return NextResponse.redirect(
-      new URL("/booking?declined=true", request.url)
+      new URL("/?declined=true", request.url)
     )
   } catch {
     return NextResponse.redirect(
-      new URL("/booking?error=failed", request.url)
+      new URL("/booking/confirmation?error=failed", request.url)
     )
   }
 }

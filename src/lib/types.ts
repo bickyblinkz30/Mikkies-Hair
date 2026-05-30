@@ -19,10 +19,28 @@ export type Appointment = {
   service?: Service
   date: string
   time: string
-  status: "pending" | "confirmed" | "declined" | "cancelled" | "completed"
+  status: "pending" | "pending_consultation" | "consultation_in_progress" | "confirmed" | "declined" | "cancelled" | "completed"
   notes?: string
+  decline_reason?: string
+  consultation_timeline?: TimelineEvent[]
   created_at: string
   updated_at: string
+}
+
+export type TimelineEvent = {
+  date: string
+  action: string
+  timestamp: string
+}
+
+export type Notification = {
+  id: string
+  user_id: string
+  type: "booking_confirmed" | "booking_pending" | "booking_declined" | "reminder" | "consultation_requested" | "consultation_confirmed" | "consultation_declined"
+  title: string
+  message: string
+  read: boolean
+  created_at: string
 }
 
 export type Availability = {
@@ -45,12 +63,4 @@ export type Profile = {
   created_at: string
 }
 
-export type Notification = {
-  id: string
-  user_id: string
-  type: "booking_confirmed" | "booking_pending" | "booking_declined" | "reminder"
-  title: string
-  message: string
-  read: boolean
-  created_at: string
-}
+

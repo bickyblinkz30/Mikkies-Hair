@@ -3,7 +3,7 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { sendBookingEmail } from "@/lib/email"
-import { STYLIST_NAME, STYLIST_EMAIL } from "@/lib/constants"
+import { STYLIST_NAME } from "@/lib/constants"
 
 export async function createAppointment(formData: FormData) {
   const supabase = await createServerSupabaseClient()
@@ -22,6 +22,14 @@ export async function createAppointment(formData: FormData) {
     .eq("id", serviceId)
     .single()
 
+  const timeline = [
+    {
+      date: new Date().toISOString().split("T")[0],
+      action: "Consultation Requested",
+      timestamp: new Date().toISOString(),
+    },
+  ]
+
   const { data: appointment, error } = await supabase
     .from("appointments")
     .insert({
@@ -32,7 +40,8 @@ export async function createAppointment(formData: FormData) {
       client_email: clientEmail,
       client_phone: clientPhone,
       notes,
-      status: "pending",
+      status: "pending_consultation",
+      consultation_timeline: JSON.stringify(timeline),
     })
     .select()
     .single()
@@ -53,22 +62,14 @@ export async function createAppointment(formData: FormData) {
     date: formattedDate,
     time,
     stylistName: STYLIST_NAME,
-    type: "pending",
-  })
-
-  await sendBookingEmail({
-    clientEmail: STYLIST_EMAIL,
-    clientName,
-    serviceName: service?.name || "Selected Service",
-    date: formattedDate,
-    time,
-    stylistName: STYLIST_NAME,
-    type: "stylist_pending",
-    appointmentId: appointment?.id,
+    type: "consultation_requested",
+    clientPhone,
+    notes,
   })
 
   revalidatePath("/booking")
   revalidatePath("/dashboard")
+  revalidatePath("/admin")
 
   return { success: true, id: appointment?.id }
 }
@@ -83,7 +84,8 @@ export async function declineAppointment(appointmentId: string) {
 
 export async function updateAppointmentStatus(
   appointmentId: string,
-  status: "confirmed" | "declined" | "completed" | "cancelled"
+  status: "confirmed" | "declined" | "completed" | "cancelled" | "pending_consultation" | "consultation_in_progress",
+  options?: { declineReason?: string }
 ) {
   const supabase = await createServerSupabaseClient()
 
@@ -95,9 +97,35 @@ export async function updateAppointmentStatus(
 
   if (!appointment) throw new Error("Appointment not found")
 
+  const currentTimeline = (appointment.consultation_timeline as Array<{date: string; action: string; timestamp: string}>) || []
+  const timelineAction = status === "confirmed"
+    ? "Confirmed"
+    : status === "declined"
+      ? "Declined"
+      : status === "consultation_in_progress"
+        ? "WhatsApp Contacted"
+        : status === "completed"
+          ? "Completed"
+          : status
+
+  const timelineEntry = {
+    date: new Date().toISOString().split("T")[0],
+    action: timelineAction,
+    timestamp: new Date().toISOString(),
+  }
+
+  const updateData: Record<string, unknown> = {
+    status,
+    consultation_timeline: JSON.stringify([...currentTimeline, timelineEntry]),
+  }
+
+  if (options?.declineReason) {
+    updateData.decline_reason = options.declineReason
+  }
+
   const { error } = await supabase
     .from("appointments")
-    .update({ status })
+    .update(updateData)
     .eq("id", appointmentId)
 
   if (error) throw new Error(error.message)
@@ -109,19 +137,35 @@ export async function updateAppointmentStatus(
     day: "numeric",
   })
 
-  await sendBookingEmail({
-    clientEmail: appointment.client_email,
-    clientName: appointment.client_name,
-    serviceName: appointment.service?.name || "Selected Service",
-    date: formattedDate,
-    time: appointment.time,
-    stylistName: STYLIST_NAME,
-    type: status === "confirmed" ? "confirmation" : "declined",
-  })
+  const serviceName = appointment.service?.name || "Selected Service"
+
+  if (status === "confirmed") {
+    await sendBookingEmail({
+      clientEmail: appointment.client_email,
+      clientName: appointment.client_name,
+      serviceName,
+      date: formattedDate,
+      time: appointment.time,
+      stylistName: STYLIST_NAME,
+      type: "consultation_confirmed",
+    })
+  } else if (status === "declined") {
+    await sendBookingEmail({
+      clientEmail: appointment.client_email,
+      clientName: appointment.client_name,
+      serviceName,
+      date: formattedDate,
+      time: appointment.time,
+      stylistName: STYLIST_NAME,
+      type: "consultation_declined",
+      declineReason: options?.declineReason,
+    })
+  }
 
   revalidatePath("/dashboard")
   revalidatePath("/dashboard/appointments")
   revalidatePath("/dashboard/calendar")
+  revalidatePath("/admin")
 
   return { success: true }
 }
@@ -216,4 +260,11 @@ export async function getAppointmentById(id: string) {
 
   if (error) return null
   return data
+}
+
+export async function updateAppointmentStatusWithTimeline(
+  appointmentId: string,
+  status: "consultation_in_progress"
+) {
+  return updateAppointmentStatus(appointmentId, status)
 }

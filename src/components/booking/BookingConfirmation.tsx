@@ -56,7 +56,7 @@ export function BookingConfirmation({
           <div>
             <h3 className="font-serif text-lg font-semibold text-white">Almost Done!</h3>
             <p className="text-sm text-white/50">
-              Please review your booking details before confirming.
+              Please review your consultation request before submitting.
             </p>
           </div>
         </div>
@@ -136,9 +136,9 @@ export function BookingConfirmation({
           transition={{ delay: 0.45, duration: 0.3 }}
           className="rounded-lg border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-4 text-sm"
         >
-          <p className="font-medium text-[#C9A84C]">Cash payment only at this time</p>
+          <p className="font-medium text-[#C9A84C]">Consultation Required</p>
           <p className="mt-1 text-white/50">
-            Please pay in cash at the time of your appointment. Your booking will be confirmed by the stylist.
+            Once submitted, the stylist will contact you to discuss pricing and details before confirming.
           </p>
         </motion.div>
       </div>
@@ -153,14 +153,14 @@ export function BookingConfirmation({
           onClick={onEdit}
           className="flex-1 rounded-lg border border-white/10 bg-transparent px-4 py-2.5 text-sm font-medium text-white/50 transition-all duration-200 hover:border-[#C9A84C]/50 hover:text-[#C9A84C]"
         >
-          Edit Booking
+          Edit Request
         </button>
         <button
           onClick={onConfirm}
           disabled={submitting}
           className="flex-1 rounded-lg bg-[#C9A84C] px-4 py-2.5 text-sm font-medium text-black transition-all duration-200 hover:bg-[#C9A84C]/90 disabled:opacity-50"
         >
-          {submitting ? "Booking..." : "Confirm Booking"}
+          {submitting ? "Submitting..." : "Submit Consultation Request"}
         </button>
       </motion.div>
     </motion.div>

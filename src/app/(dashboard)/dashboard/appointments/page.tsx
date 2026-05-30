@@ -7,14 +7,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { updateAppointmentStatus, getAppointments } from "@/lib/actions/booking"
@@ -47,6 +39,8 @@ interface Appointment {
 
 const statusVariant: Record<string, "success" | "warning" | "pending" | "secondary" | "destructive"> = {
   pending: "pending",
+  pending_consultation: "warning",
+  consultation_in_progress: "pending",
   confirmed: "success",
   completed: "success",
   declined: "destructive",
@@ -66,7 +60,6 @@ export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
-  const [selectedApt, setSelectedApt] = useState<Appointment | null>(null)
 
   useEffect(() => {
     getAppointments()
@@ -88,7 +81,6 @@ export default function AppointmentsPage() {
         prev.map((a) => (a.id === id ? { ...a, status } : a))
       )
       toast.success(`Appointment ${status} successfully`)
-      setSelectedApt(null)
     } catch {
       toast.error("Failed to update appointment")
     }
@@ -176,7 +168,7 @@ export default function AppointmentsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => setSelectedApt(apt)}
+                          onClick={() => {}}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
