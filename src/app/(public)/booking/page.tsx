@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Check } from "lucide-react"
-import { createAppointment } from "@/lib/actions/booking"
 import { Button } from "@/components/ui/button"
 import { ServiceSelector } from "@/components/booking/ServiceSelector"
 import { DateTimePicker } from "@/components/booking/DateTimePicker"
@@ -47,15 +46,27 @@ export default function BookingPage() {
     setSubmitting(true)
     setSubmitError(null)
     try {
-      const formData = new FormData()
-      formData.set("serviceId", selectedService.id)
-      formData.set("date", selectedDate)
-      formData.set("time", selectedTime)
-      formData.set("clientName", clientName)
-      formData.set("clientEmail", clientEmail)
-      formData.set("clientPhone", clientPhone)
-      formData.set("notes", notes)
-      const result = await createAppointment(formData)
+      const response = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceId: selectedService.id,
+          date: selectedDate,
+          time: selectedTime,
+          clientName,
+          clientEmail,
+          clientPhone,
+          notes,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setSubmitError(result.error || 'Submission failed. Please try again.');
+        return;
+      }
+
       if (result.success) {
         router.push(
           `/booking/confirmation?name=${encodeURIComponent(clientName)}&service=${encodeURIComponent(selectedService.name)}&date=${selectedDate}&time=${selectedTime}`
@@ -63,7 +74,7 @@ export default function BookingPage() {
       }
     } catch (err) {
       console.error("Booking submission error:", err)
-      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.")
+      setSubmitError(err instanceof Error ? err.message : "Network error. Please check your connection and try again.")
     } finally {
       setSubmitting(false)
     }

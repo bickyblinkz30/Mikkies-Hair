@@ -1,11 +1,11 @@
 "use server"
 
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { createServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 export async function signIn(formData: FormData) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const email = formData.get("email") as string
   const password = formData.get("password") as string
@@ -24,7 +24,7 @@ export async function signIn(formData: FormData) {
 }
 
 export async function signOut() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   await supabase.auth.signOut()
   revalidatePath("/admin")
   redirect("/admin/login")

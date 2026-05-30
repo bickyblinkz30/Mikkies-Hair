@@ -1,12 +1,12 @@
 "use server"
 
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { createServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { sendBookingEmail } from "@/lib/email"
 import { STYLIST_NAME } from "@/lib/constants"
 
 export async function createAppointment(formData: FormData) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const serviceId = formData.get("serviceId") as string
   const date = formData.get("date") as string
@@ -93,7 +93,7 @@ export async function updateAppointmentStatus(
   status: "confirmed" | "declined" | "completed" | "cancelled" | "pending_consultation" | "consultation_in_progress",
   options?: { declineReason?: string }
 ) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const { data: appointment } = await supabase
     .from("appointments")
@@ -177,7 +177,7 @@ export async function updateAppointmentStatus(
 }
 
 export async function blockDate(date: string, startTime?: string, endTime?: string, reason?: string) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase.from("availability").insert({
     date,
@@ -195,7 +195,7 @@ export async function blockDate(date: string, startTime?: string, endTime?: stri
 }
 
 export async function unblockDate(availabilityId: string) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase
     .from("availability")
@@ -210,7 +210,7 @@ export async function unblockDate(availabilityId: string) {
 }
 
 export async function getServices() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("services")
     .select("*")
@@ -222,7 +222,7 @@ export async function getServices() {
 }
 
 export async function getAppointments() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("appointments")
     .select("*, service:services(*)")
@@ -233,7 +233,7 @@ export async function getAppointments() {
 }
 
 export async function getAppointmentsByDate(date: string) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("appointments")
     .select("*, service:services(*)")
@@ -246,7 +246,7 @@ export async function getAppointmentsByDate(date: string) {
 }
 
 export async function getAvailability() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("availability")
     .select("*")
@@ -257,7 +257,7 @@ export async function getAvailability() {
 }
 
 export async function getAppointmentById(id: string) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("appointments")
     .select("*, service:services(*)")

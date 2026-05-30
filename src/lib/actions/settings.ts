@@ -1,10 +1,10 @@
 "use server"
 
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { createServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
 export async function getSettings() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from("settings")
     .select("key, value")
@@ -27,7 +27,7 @@ export async function getWhatsAppNumber(): Promise<string> {
 }
 
 export async function updateSetting(key: string, value: string) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase
     .from("settings")
