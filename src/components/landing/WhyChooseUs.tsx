@@ -3,59 +3,45 @@
 import type { Variants } from "framer-motion"
 import { motion } from "framer-motion"
 
+const ExpertIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 22a8 8 0 0 1 16 0" />
+  </svg>
+)
+
+const ProductsIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
+    <path d="M9 2h6v3H9z" />
+    <path d="M7 5h10v15a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z" />
+    <path d="M10 12h4" />
+  </svg>
+)
+
+const ShieldIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
+    <path d="M12 2l8 4v6c0 5-4 9-8 10-4-1-8-5-8-10V6z" />
+    <path d="M12 8v6" />
+    <path d="M9 11h6" />
+  </svg>
+)
+
+const HeartIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
+    <path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z" />
+  </svg>
+)
+
 const reasons = [
-  {
-    title: "Expert Stylists",
-    description: "Trained professionals who care.",
-    icon: () => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    title: "Premium Products",
-    description: "We use only the best for your hair.",
-    icon: () => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a4 4 0 0 0-4 4v1h8V6a4 4 0 0 0-4-4z" />
-        <path d="M6 7v11a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V7" />
-        <path d="M10 12v4" />
-        <path d="M14 12v4" />
-      </svg>
-    ),
-  },
-  {
-    title: "Hygienic & Safe",
-    description: "Clean, safe and relaxing environment.",
-    icon: () => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <path d="M9 12l2 2 4-4" />
-      </svg>
-    ),
-  },
-  {
-    title: "Personalized Care",
-    description: "Because your hair is unique.",
-    icon: () => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 14c1.5-2.5 2-5 2-7 0-3-2-5-5-5-2 0-4 1-5 2.5C10 3 8 2 6 2 3 2 1 4 1 7c0 2 .5 4.5 2 7" />
-        <path d="M12 22c4-3 8-6 8-11" />
-      </svg>
-    ),
-  },
+  { title: "Expert Stylists",   description: "Trained professionals who care.",          Icon: ExpertIcon },
+  { title: "Premium Products",  description: "We use only the best for your hair.",       Icon: ProductsIcon },
+  { title: "Hygienic & Safe",   description: "Clean, safe and relaxing environment.",     Icon: ShieldIcon },
+  { title: "Personalized Care", description: "Because your hair is unique.",              Icon: HeartIcon },
 ]
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 }
 
 const itemVariants: Variants = {
@@ -63,28 +49,25 @@ const itemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1] as const,
-    },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
   },
 }
 
 export function WhyChooseUs() {
   return (
-    <section className="relative py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-black pb-32 pt-8">
+      <div className="mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="mx-auto max-w-2xl text-center"
+          className="text-center"
         >
-          <h2 className="font-serif text-4xl tracking-wide text-white sm:text-5xl">
+          <h2 className="font-serif text-3xl tracking-wide text-white md:text-4xl">
             Why Choose Us
           </h2>
-          <div className="mt-4 text-[#C9A84C] text-xl opacity-70">◇</div>
+          <div className="mx-auto mt-3 text-[#C9A84C]">◇</div>
         </motion.div>
 
         <motion.div
@@ -92,23 +75,23 @@ export function WhyChooseUs() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4"
         >
           {reasons.map((reason) => {
-            const Icon = reason.icon
+            const Icon = reason.Icon
             return (
               <motion.div
                 key={reason.title}
                 variants={itemVariants}
-                className="group flex flex-col items-center text-center"
+                className="flex flex-col items-start"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/30 text-white transition-all duration-500 group-hover:border-[#C9A84C]/50 group-hover:text-[#C9A84C]">
+                <div className="text-[#C9A84C]">
                   <Icon />
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-white">
+                <h3 className="mt-4 text-base font-semibold text-white">
                   {reason.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/50 max-w-xs">
+                <p className="mt-1 text-sm text-white/55">
                   {reason.description}
                 </p>
               </motion.div>
