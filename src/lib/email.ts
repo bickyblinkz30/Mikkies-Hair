@@ -1,4 +1,5 @@
 import { Resend } from "resend"
+import { getWhatsAppNumber } from "@/lib/actions/settings"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -36,7 +37,7 @@ export async function sendBookingEmail(params: SendEmailParams) {
   } = params
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, "") || "https://mikkieshair.com"
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ""
+  const whatsappNumber = await getWhatsAppNumber()
 
   const subjects: Record<string, string> = {
     confirmation: "Your Appointment is Confirmed! – Mikkies Hair",

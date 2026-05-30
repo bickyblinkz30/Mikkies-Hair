@@ -1,17 +1,26 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { Suspense } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { CalendarDays, Clock, Scissors, CheckCircle, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { getWhatsAppNumber } from "@/lib/actions/settings"
 
 function ConfirmationContent() {
   const searchParams = useSearchParams()
   const service = searchParams.get("service") || "your service"
   const date = searchParams.get("date") || ""
   const time = searchParams.get("time") || ""
+
+  const [whatsappNumber, setWhatsappNumber] = useState(
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
+  )
+
+  useEffect(() => {
+    getWhatsAppNumber().then(setWhatsappNumber)
+  }, [])
 
   const formattedDate = date
     ? new Date(date + "T12:00:00").toLocaleDateString("en-US", {
@@ -21,8 +30,6 @@ function ConfirmationContent() {
         day: "numeric",
       })
     : ""
-
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center py-16 relative z-10">
@@ -50,7 +57,7 @@ function ConfirmationContent() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className="mt-3 text-lg text-white/50"
         >
-          Your consultation request has been received. The stylist will review and contact you shortly.
+          Your consultation request has been received. You will be contacted shortly on WhatsApp by our stylist.
         </motion.p>
 
         <motion.div
@@ -129,7 +136,7 @@ function ConfirmationContent() {
           >
             <Button className="w-full gap-2 bg-[#25D366] text-white hover:bg-[#25D366]/90 sm:w-auto">
               <MessageCircle className="h-4 w-4" />
-              Contact Us on WhatsApp
+              Continue to WhatsApp
             </Button>
           </a>
         </motion.div>

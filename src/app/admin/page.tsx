@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getAppointments, updateAppointmentStatus } from "@/lib/actions/booking"
 import { signOut } from "@/lib/actions/auth"
+import { getWhatsAppNumber } from "@/lib/actions/settings"
 import { DECLINE_REASONS } from "@/lib/constants"
 import type { Appointment, TimelineEvent } from "@/lib/types"
 
@@ -62,11 +63,17 @@ export default function AdminDashboard() {
   const [declineReason, setDeclineReason] = useState("")
   const [timelineDialog, setTimelineDialog] = useState<Appointment | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
-
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
+  const [whatsappNumber, setWhatsappNumber] = useState(
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
+  )
 
   useEffect(() => {
     let cancelled = false
+
+    getWhatsAppNumber().then((num) => {
+      if (!cancelled) setWhatsappNumber(num)
+    })
+
     getAppointments()
       .then((data) => {
         if (!cancelled) setAppointments(data)
@@ -184,11 +191,16 @@ export default function AdminDashboard() {
                 Admin
               </span>
             </div>
-            <form action={signOut}>
-              <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
-                Sign Out
-              </Button>
-            </form>
+            <div className="flex items-center gap-4">
+              <a href="/admin/settings" className="text-sm text-white/50 hover:text-white transition-colors">
+                Settings
+              </a>
+              <form action={signOut}>
+                <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
+                  Sign Out
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
