@@ -16,11 +16,17 @@ export async function createAppointment(formData: FormData) {
   const clientPhone = formData.get("clientPhone") as string
   const notes = formData.get("notes") as string
 
-  const { data: service } = await supabase
-    .from("services")
-    .select("name")
-    .eq("id", serviceId)
-    .single()
+  let serviceName = "Selected Service"
+  try {
+    const { data: service } = await supabase
+      .from("services")
+      .select("name")
+      .eq("id", serviceId)
+      .single()
+    if (service) serviceName = service.name
+  } catch {
+    // services table may not exist or IDs may not match — that's ok for consultation requests
+  }
 
   const timeline = [
     {
@@ -58,7 +64,7 @@ export async function createAppointment(formData: FormData) {
   await sendBookingEmail({
     clientEmail,
     clientName,
-    serviceName: service?.name || "Selected Service",
+    serviceName,
     date: formattedDate,
     time,
     stylistName: STYLIST_NAME,

@@ -37,12 +37,15 @@ export default function BookingPage() {
   const [clientPhone, setClientPhone] = useState("")
   const [notes, setNotes] = useState("")
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState(false)
   const [bookedSlots] = useState<string[]>([])
   const [blockedDates] = useState<string[]>([])
 
   async function handleConfirm() {
     if (!selectedService || !selectedDate || !selectedTime) return
     setSubmitting(true)
+    setSubmitError(null)
     try {
       const formData = new FormData()
       formData.set("serviceId", selectedService.id)
@@ -58,8 +61,9 @@ export default function BookingPage() {
           `/booking/confirmation?name=${encodeURIComponent(clientName)}&service=${encodeURIComponent(selectedService.name)}&date=${selectedDate}&time=${selectedTime}`
         )
       }
-    } catch {
-      // silent
+    } catch (err) {
+      console.error("Booking submission error:", err)
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.")
     } finally {
       setSubmitting(false)
     }
@@ -200,6 +204,7 @@ export default function BookingPage() {
                   onEdit={() => { setDirection(-1); setStep(0) }}
                   onConfirm={handleConfirm}
                   submitting={submitting}
+                  submitError={submitError}
                 />
               )}
             </motion.div>

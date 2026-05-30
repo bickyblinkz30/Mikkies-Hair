@@ -16,6 +16,7 @@ interface BookingConfirmationProps {
   onEdit: () => void
   onConfirm: () => void
   submitting: boolean
+  submitError?: string | null
 }
 
 export function BookingConfirmation({
@@ -29,6 +30,7 @@ export function BookingConfirmation({
   onEdit,
   onConfirm,
   submitting,
+  submitError,
 }: BookingConfirmationProps) {
   const formattedDate = format(new Date(date + "T12:00:00"), "EEEE, MMMM d, yyyy")
 
@@ -163,6 +165,16 @@ export function BookingConfirmation({
           {submitting ? "Submitting..." : "Submit Consultation Request"}
         </button>
       </motion.div>
+
+      {submitError && (
+        <motion.p
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center text-sm text-red-400"
+        >
+          {submitError}
+        </motion.p>
+      )}
     </motion.div>
   )
 }
