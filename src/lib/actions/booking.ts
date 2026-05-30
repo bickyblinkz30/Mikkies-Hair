@@ -58,18 +58,27 @@ export async function createAppointment(formData: FormData) {
 
   await sendBookingEmail({
     clientEmail: STYLIST_EMAIL,
-    clientName: STYLIST_NAME,
+    clientName,
     serviceName: service?.name || "Selected Service",
     date: formattedDate,
     time,
-    stylistName: clientName,
-    type: "pending",
+    stylistName: STYLIST_NAME,
+    type: "stylist_pending",
+    appointmentId: appointment?.id,
   })
 
   revalidatePath("/booking")
   revalidatePath("/dashboard")
 
   return { success: true, id: appointment?.id }
+}
+
+export async function confirmAppointment(appointmentId: string) {
+  return updateAppointmentStatus(appointmentId, "confirmed")
+}
+
+export async function declineAppointment(appointmentId: string) {
+  return updateAppointmentStatus(appointmentId, "declined")
 }
 
 export async function updateAppointmentStatus(
@@ -100,17 +109,15 @@ export async function updateAppointmentStatus(
     day: "numeric",
   })
 
-  if (status === "confirmed" || status === "declined") {
-    await sendBookingEmail({
-      clientEmail: appointment.client_email,
-      clientName: appointment.client_name,
-      serviceName: appointment.service?.name || "Selected Service",
-      date: formattedDate,
-      time: appointment.time,
-      stylistName: STYLIST_NAME,
-      type: status === "confirmed" ? "confirmation" : "declined",
-    })
-  }
+  await sendBookingEmail({
+    clientEmail: appointment.client_email,
+    clientName: appointment.client_name,
+    serviceName: appointment.service?.name || "Selected Service",
+    date: formattedDate,
+    time: appointment.time,
+    stylistName: STYLIST_NAME,
+    type: status === "confirmed" ? "confirmation" : "declined",
+  })
 
   revalidatePath("/dashboard")
   revalidatePath("/dashboard/appointments")

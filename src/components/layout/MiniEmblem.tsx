@@ -16,24 +16,54 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
       aria-label="Mikkies Hair mark"
     >
       <defs>
-        <linearGradient id={`silver-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="30%" stopColor="#ededed" />
-          <stop offset="55%" stopColor="#b9b9b9" />
-          <stop offset="80%" stopColor="#7c7c7c" />
-          <stop offset="100%" stopColor="#a0a0a0" />
+        <linearGradient id={`silver-${uid}`} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stopColor="#7e7e7e" />
+          <stop offset="35%" stopColor="#c8c8c8" />
+          <stop offset="50%" stopColor="#ffffff" />
+          <stop offset="65%" stopColor="#c8c8c8" />
+          <stop offset="100%" stopColor="#7e7e7e" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="-1.1 0; 1.1 0; -1.1 0"
+            keyTimes="0; 0.5; 1"
+            dur="4.5s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
-        <linearGradient id={`silverH-${uid}`} x1="0" y1="0" x2="1" y2="0">
+
+        <linearGradient id={`silverH-${uid}`} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
           <stop offset="0%" stopColor="#7a7a7a" />
-          <stop offset="35%" stopColor="#e5e5e5" />
-          <stop offset="65%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#9a9a9a" />
+          <stop offset="35%" stopColor="#cfcfcf" />
+          <stop offset="50%" stopColor="#ffffff" />
+          <stop offset="65%" stopColor="#cfcfcf" />
+          <stop offset="100%" stopColor="#7a7a7a" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="-1.1 0; 1.1 0; -1.1 0"
+            keyTimes="0; 0.5; 1"
+            dur="4.5s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
-        <linearGradient id={`silverBlade-${uid}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#8a8a8a" />
-          <stop offset="45%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#6f6f6f" />
+
+        <linearGradient id={`silverBlade-${uid}`} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stopColor="#7a7a7a" />
+          <stop offset="35%" stopColor="#d0d0d0" />
+          <stop offset="50%" stopColor="#ffffff" />
+          <stop offset="65%" stopColor="#d0d0d0" />
+          <stop offset="100%" stopColor="#7a7a7a" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="-1.1 0; 1.1 0; -1.1 0"
+            keyTimes="0; 0.5; 1"
+            dur="4.5s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
+
         <mask id={`hideLeftLeg-${uid}`} maskUnits="userSpaceOnUse">
           <rect x="0" y="0" width="400" height="400" fill="#ffffff" />
           <polygon
@@ -79,14 +109,8 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
             <rect key={i} x="68" y={y} width="52" height="5" rx="1.2" fill={`url(#silverH-${uid})`} />
           )
         })}
-        <path
-          d={`M 68 ${TOP + 4} Q 60 ${TOP + 4} 60 ${TOP + 14} L 60 ${TOP + 18} L 68 ${TOP + 18} Z`}
-          fill={`url(#silverH-${uid})`}
-        />
-        <path
-          d={`M 68 ${TOP + 96} Q 60 ${TOP + 96} 60 ${TOP + 86} L 60 ${TOP + 82} L 68 ${TOP + 82} Z`}
-          fill={`url(#silverH-${uid})`}
-        />
+        <path d={`M 68 ${TOP + 4} Q 60 ${TOP + 4} 60 ${TOP + 14} L 60 ${TOP + 18} L 68 ${TOP + 18} Z`} fill={`url(#silverH-${uid})`} />
+        <path d={`M 68 ${TOP + 96} Q 60 ${TOP + 96} 60 ${TOP + 86} L 60 ${TOP + 82} L 68 ${TOP + 82} Z`} fill={`url(#silverH-${uid})`} />
       </g>
 
       <g transform="translate(144 0)">
@@ -104,20 +128,8 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
         </g>
         <circle cx="-1" cy={TOP + 122} r="4.6" fill="#2a2a2a" />
         <circle cx="-1" cy={TOP + 122} r="1.8" fill="#0a0a0a" />
-        <path
-          d={`M -5 ${TOP + 134} Q -16 ${TOP + 154} -28 ${TOP + 176}`}
-          stroke={`url(#silver-${uid})`}
-          strokeWidth="6"
-          strokeLinecap="round"
-          fill="none"
-        />
-        <path
-          d={`M 5 ${TOP + 134} Q 16 ${TOP + 154} 28 ${TOP + 176}`}
-          stroke={`url(#silver-${uid})`}
-          strokeWidth="6"
-          strokeLinecap="round"
-          fill="none"
-        />
+        <path d={`M -5 ${TOP + 134} Q -16 ${TOP + 154} -28 ${TOP + 176}`} stroke={`url(#silver-${uid})`} strokeWidth="6" strokeLinecap="round" fill="none" />
+        <path d={`M 5 ${TOP + 134} Q 16 ${TOP + 154} 28 ${TOP + 176}`} stroke={`url(#silver-${uid})`} strokeWidth="6" strokeLinecap="round" fill="none" />
         <ellipse cx="-34" cy={BOTTOM - 24} rx="17" ry="19" fill="none" stroke={`url(#silver-${uid})`} strokeWidth="6" />
         <path
           d={`M -41 ${BOTTOM - 6} C -46 ${BOTTOM + 0} -46 ${BOTTOM + 8} -39 ${BOTTOM + 12} C -34 ${BOTTOM + 12} -31 ${BOTTOM + 6} -32 ${BOTTOM + 0} C -33 ${BOTTOM - 4} -36 ${BOTTOM - 6} -41 ${BOTTOM - 6} Z`}

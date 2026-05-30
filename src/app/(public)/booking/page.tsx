@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Check } from "lucide-react"
+import { createAppointment } from "@/lib/actions/booking"
 import { Button } from "@/components/ui/button"
 import { ServiceSelector } from "@/components/booking/ServiceSelector"
 import { DateTimePicker } from "@/components/booking/DateTimePicker"
@@ -23,11 +24,6 @@ const SERVICES: Service[] = [
 ]
 
 const STEPS = ["Service", "Date & Time", "Your Info", "Confirm"]
-
-async function mockCreateAppointment(_formData: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return { success: true }
-}
 
 export default function BookingPage() {
   const router = useRouter()
@@ -56,7 +52,7 @@ export default function BookingPage() {
       formData.set("clientEmail", clientEmail)
       formData.set("clientPhone", clientPhone)
       formData.set("notes", notes)
-      const result = await mockCreateAppointment(formData)
+      const result = await createAppointment(formData)
       if (result.success) {
         router.push(
           `/booking/confirmation?name=${encodeURIComponent(clientName)}&service=${encodeURIComponent(selectedService.name)}&date=${selectedDate}&time=${selectedTime}`
