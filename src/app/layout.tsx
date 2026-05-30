@@ -3,6 +3,7 @@ import { Playfair_Display, Montserrat, Cinzel, Dancing_Script } from "next/font/
 import "./globals.css"
 import { Toaster } from "@/components/ui/sonner"
 import { AnimatedBackground } from "@/components/AnimatedBackground"
+import GoldParticles from "@/components/GoldParticles"
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -58,7 +59,12 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${montserrat.variable} ${cinzel.variable} ${dancingScript.variable}`}>
       <body className="min-h-screen bg-background font-sans antialiased">
         <AnimatedBackground />
-        {children}
+        <div className="relative min-h-screen">
+          <GoldParticles density={90} />
+          <div className="relative z-10">
+            {children}
+          </div>
+        </div>
         <Toaster
           position="top-center"
           toastOptions={{
