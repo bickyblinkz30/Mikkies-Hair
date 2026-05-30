@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Playfair_Display, Montserrat } from "next/font/google"
+import { Playfair_Display, Montserrat, Cinzel, Dancing_Script } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/sonner"
 import { AnimatedBackground } from "@/components/AnimatedBackground"
@@ -12,6 +12,18 @@ const playfair = Playfair_Display({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+})
+
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: "700",
+})
+
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing-script",
+  subsets: ["latin"],
+  weight: "600",
 })
 
 export const metadata: Metadata = {
@@ -43,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${montserrat.variable} ${cinzel.variable} ${dancingScript.variable}`}>
       <body className="min-h-screen bg-background font-sans antialiased">
         <AnimatedBackground />
         {children}
