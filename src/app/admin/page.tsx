@@ -173,7 +173,22 @@ export default function AdminDashboard() {
     return []
   }
 
-  const tabs = ["all", "pending", "confirmed", "declined", "completed"]
+  async function handleWhatsAppClick(apt: Appointment) {
+    setActionLoading(true)
+    try {
+      await updateAppointmentStatus(apt.id, "contacted")
+      const refreshed = await getAppointments()
+      setAppointments(refreshed)
+      window.open(getWhatsAppLink(apt), "_blank")
+    } catch {
+      toast.error("Failed to update status")
+      window.open(getWhatsAppLink(apt), "_blank")
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  const tabs = ["all", "pending", "contacted", "confirmed", "declined", "completed"]
 
   return (
     <div className="min-h-screen bg-black">
@@ -265,6 +280,7 @@ export default function AdminDashboard() {
             <TabsList className="border-white/10 bg-[#0a0a0a]">
               <TabsTrigger value="all" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">All</TabsTrigger>
               <TabsTrigger value="pending" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Pending</TabsTrigger>
+              <TabsTrigger value="contacted" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Contacted</TabsTrigger>
               <TabsTrigger value="confirmed" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Confirmed</TabsTrigger>
               <TabsTrigger value="declined" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Declined</TabsTrigger>
               <TabsTrigger value="completed" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Completed</TabsTrigger>
@@ -341,19 +357,15 @@ export default function AdminDashboard() {
 
                             {(apt.status === "pending" || apt.status === "contacted") && (
                               <>
-                                <a
-                                  href={getWhatsAppLink(apt)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                <Button
+                                  size="sm"
+                                  className="gap-1 bg-[#25D366] text-white hover:bg-[#25D366]/90"
+                                  onClick={() => handleWhatsAppClick(apt)}
+                                  disabled={actionLoading}
                                 >
-                                  <Button
-                                    size="sm"
-                                    className="gap-1 bg-[#25D366] text-white hover:bg-[#25D366]/90"
-                                  >
-                                    <MessageCircle className="h-4 w-4" />
-                                    <span className="hidden sm:inline">WhatsApp</span>
-                                  </Button>
-                                </a>
+                                  <MessageCircle className="h-4 w-4" />
+                                  <span className="hidden sm:inline">WhatsApp</span>
+                                </Button>
                                 <Button
                                   size="sm"
                                   className="gap-1 bg-[#C9A84C] text-black hover:bg-[#C9A84C]/90"
