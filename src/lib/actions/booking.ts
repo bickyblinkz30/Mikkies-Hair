@@ -42,7 +42,6 @@ export async function createAppointment(formData: FormData) {
   const { data: appointment, error } = await supabase
     .from("appointments")
     .insert({
-      service_id: null,
       date,
       time,
       client_name: clientName,

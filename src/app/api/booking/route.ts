@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
     const { data: appointment, error } = await supabase
       .from("appointments")
       .insert({
-        service_id: null,
         date,
         time,
         client_name: clientName,
