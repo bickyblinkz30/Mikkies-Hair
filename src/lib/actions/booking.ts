@@ -1,12 +1,13 @@
 "use server"
 
 import { createServerClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { revalidatePath } from "next/cache"
 import { sendBookingEmail } from "@/lib/email"
 import { STYLIST_NAME } from "@/lib/constants"
 
 export async function createAppointment(formData: FormData) {
-  const supabase = await createServerClient()
+  const supabase = createAdminClient()
 
   const serviceId = formData.get("serviceId") as string
   const date = formData.get("date") as string
@@ -17,15 +18,17 @@ export async function createAppointment(formData: FormData) {
   const notes = formData.get("notes") as string
 
   let serviceName = "Selected Service"
-  try {
-    const { data: service } = await supabase
-      .from("services")
-      .select("name")
-      .eq("id", serviceId)
-      .single()
-    if (service) serviceName = service.name
-  } catch {
-    // services table may not exist or IDs may not match — that's ok for consultation requests
+  if (serviceId) {
+    try {
+      const { data: service } = await supabase
+        .from("services")
+        .select("name")
+        .eq("id", serviceId)
+        .single()
+      if (service) serviceName = service.name
+    } catch {
+      // services table may not exist or IDs may not match
+    }
   }
 
   const timeline = [
@@ -39,7 +42,7 @@ export async function createAppointment(formData: FormData) {
   const { data: appointment, error } = await supabase
     .from("appointments")
     .insert({
-      service_id: serviceId,
+      service_id: null,
       date,
       time,
       client_name: clientName,
