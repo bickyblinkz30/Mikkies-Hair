@@ -87,7 +87,6 @@ export function HeroSection() {
                 M
               </text>
 
-              {/* COMB head only */}
               <g transform="translate(4 0)">
                 <rect x="118" y={TOP} width="11" height="100" rx="2.5" fill="url(#mh-silverH)" />
                 {Array.from({ length: 24 }).map((_, i) => {
@@ -100,7 +99,6 @@ export function HeroSection() {
                 <path d={`M 68 ${TOP + 96} Q 60 ${TOP + 96} 60 ${TOP + 86} L 60 ${TOP + 82} L 68 ${TOP + 82} Z`} fill="url(#mh-silverH)" />
               </g>
 
-              {/* SCISSORS */}
               <g transform="translate(144 0)">
                 <path
                   d={`M -3 ${TOP + 4} L  0 ${TOP + 6} Q  4 ${TOP + 70} -3 ${TOP + 130} L -9 ${TOP + 130} Q -12 ${TOP + 70} -8 ${TOP + 6} Z`}

@@ -2,11 +2,6 @@
 
 import { useId } from "react"
 
-/**
- * MiniEmblem — small inline version of the Mikkies Hair hero emblem.
- * Same composition (M with comb + scissors replacing the left leg),
- * simplified so it stays legible at small sizes.
- */
 export function MiniEmblem({ size = 32 }: { size?: number }) {
   const TOP = 90
   const BOTTOM = 298
@@ -76,7 +71,6 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
         M
       </text>
 
-      {/* COMB head */}
       <g transform="translate(4 0)">
         <rect x="118" y={TOP} width="11" height="100" rx="2.5" fill={`url(#silverH-${uid})`} />
         {Array.from({ length: 10 }).map((_, i) => {
@@ -95,7 +89,6 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
         />
       </g>
 
-      {/* SCISSORS */}
       <g transform="translate(144 0)">
         <path
           d={`M -3 ${TOP + 4} L 0 ${TOP + 6} Q 4 ${TOP + 70} -3 ${TOP + 130} L -9 ${TOP + 130} Q -12 ${TOP + 70} -8 ${TOP + 6} Z`}
@@ -138,8 +131,4 @@ export function MiniEmblem({ size = 32 }: { size?: number }) {
       </g>
     </svg>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ead20cca40aefd8726b110622ed7e8b7bfc2d120

@@ -13,10 +13,10 @@ const quickLinks = [
 
 const serviceLinks = [
   { label: "Hair Cut", href: "/services" },
-  { label: "Hair Treatment", href: "/services" },
+  { label: "Treatment", href: "/services" },
   { label: "Blow Dry", href: "/services" },
-  { label: "Hair Coloring", href: "/services" },
-  { label: "Hair Styling", href: "/services" },
+  { label: "Coloring", href: "/services" },
+  { label: "Styling", href: "/services" },
 ]
 
 export function Footer() {
