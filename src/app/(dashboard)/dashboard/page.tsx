@@ -11,9 +11,8 @@ import { getAppointments } from "@/lib/actions/booking"
 import type { Appointment } from "@/lib/types"
 
 const statusVariant: Record<string, "success" | "warning" | "pending" | "secondary" | "destructive"> = {
-  pending_consultation: "warning",
-  consultation_in_progress: "pending",
-  pending: "pending",
+  pending: "warning",
+  contacted: "pending",
   confirmed: "success",
   completed: "success",
   declined: "destructive",
@@ -37,7 +36,7 @@ export default function DashboardPage() {
 
   const today = new Date().toISOString().split("T")[0]
   const todayAppts = appointments.filter((a) => a.date === today && a.status !== "cancelled")
-  const pendingAppts = appointments.filter((a) => a.status === "pending_consultation" || a.status === "pending")
+  const pendingAppts = appointments.filter((a) => a.status === "pending" || a.status === "contacted")
   const uniqueClients = new Set(appointments.map((a) => a.client_email)).size
   const completedAppts = appointments.filter((a) => a.status === "completed").length
 
@@ -144,7 +143,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <Badge variant={statusVariant[apt.status] || "secondary"} className="capitalize">
-                    {apt.status === "pending_consultation" ? "Consultation" : apt.status}
+                    {apt.status === "pending" ? "Consultation" : apt.status}
                   </Badge>
                 </div>
               )) : (

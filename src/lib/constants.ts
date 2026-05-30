@@ -14,8 +14,7 @@ export const BUSINESS_HOURS = {
 
 export const APPOINTMENT_STATUS = {
   PENDING: "pending",
-  PENDING_CONSULTATION: "pending_consultation",
-  CONSULTATION_IN_PROGRESS: "consultation_in_progress",
+  CONTACTED: "contacted",
   CONFIRMED: "confirmed",
   DECLINED: "declined",
   CANCELLED: "cancelled",

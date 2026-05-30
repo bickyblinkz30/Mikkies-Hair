@@ -24,9 +24,8 @@ import { DECLINE_REASONS } from "@/lib/constants"
 import type { Appointment, TimelineEvent } from "@/lib/types"
 
 const statusVariant: Record<string, "success" | "warning" | "pending" | "secondary" | "destructive"> = {
-  pending_consultation: "warning",
-  consultation_in_progress: "pending",
-  pending: "pending",
+  pending: "warning",
+  contacted: "pending",
   confirmed: "success",
   completed: "success",
   declined: "destructive",
@@ -34,9 +33,8 @@ const statusVariant: Record<string, "success" | "warning" | "pending" | "seconda
 }
 
 const statusLabels: Record<string, string> = {
-  pending_consultation: "Pending Consultation",
-  consultation_in_progress: "Consultation In Progress",
   pending: "Pending",
+  contacted: "Contacted",
   confirmed: "Confirmed",
   completed: "Completed",
   declined: "Declined",
@@ -95,8 +93,8 @@ export default function AdminDashboard() {
   )
 
   const counts = {
-    pending_consultation: appointments.filter((a) => a.status === "pending_consultation").length,
-    consultation_in_progress: appointments.filter((a) => a.status === "consultation_in_progress").length,
+    pending: appointments.filter((a) => a.status === "pending").length,
+    contacted: appointments.filter((a) => a.status === "contacted").length,
     confirmed: appointments.filter((a) => a.status === "confirmed").length,
     declined: appointments.filter((a) => a.status === "declined").length,
     completed: appointments.filter((a) => a.status === "completed").length,
@@ -175,7 +173,7 @@ export default function AdminDashboard() {
     return []
   }
 
-  const tabs = ["all", "pending_consultation", "confirmed", "declined", "completed"]
+  const tabs = ["all", "pending", "confirmed", "declined", "completed"]
 
   return (
     <div className="min-h-screen bg-black">
@@ -217,13 +215,13 @@ export default function AdminDashboard() {
           <Card className="border border-white/10 bg-[#0a0a0a]">
             <CardContent className="p-4">
               <p className="text-sm text-white/50">Pending Consultations</p>
-              <p className="mt-1 text-2xl font-bold text-[#C9A84C]">{counts.pending_consultation}</p>
+              <p className="mt-1 text-2xl font-bold text-[#C9A84C]">{counts.pending}</p>
             </CardContent>
           </Card>
           <Card className="border border-white/10 bg-[#0a0a0a]">
             <CardContent className="p-4">
               <p className="text-sm text-white/50">In Progress</p>
-              <p className="mt-1 text-2xl font-bold text-yellow-400">{counts.consultation_in_progress}</p>
+              <p className="mt-1 text-2xl font-bold text-yellow-400">{counts.contacted}</p>
             </CardContent>
           </Card>
           <Card className="border border-white/10 bg-[#0a0a0a]">
@@ -266,7 +264,7 @@ export default function AdminDashboard() {
           <Tabs defaultValue="all">
             <TabsList className="border-white/10 bg-[#0a0a0a]">
               <TabsTrigger value="all" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">All</TabsTrigger>
-              <TabsTrigger value="pending_consultation" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Pending</TabsTrigger>
+              <TabsTrigger value="pending" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Pending</TabsTrigger>
               <TabsTrigger value="confirmed" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Confirmed</TabsTrigger>
               <TabsTrigger value="declined" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Declined</TabsTrigger>
               <TabsTrigger value="completed" className="text-white/50 data-[state=active]:bg-[#C9A84C] data-[state=active]:text-black">Completed</TabsTrigger>
@@ -341,7 +339,7 @@ export default function AdminDashboard() {
                               <Eye className="h-4 w-4" />
                             </Button>
 
-                            {(apt.status === "pending_consultation" || apt.status === "consultation_in_progress") && (
+                            {(apt.status === "pending" || apt.status === "contacted") && (
                               <>
                                 <a
                                   href={getWhatsAppLink(apt)}

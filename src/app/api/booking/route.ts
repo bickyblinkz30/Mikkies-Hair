@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         client_email: clientEmail,
         client_phone: clientPhone,
         notes: notes || null,
-        status: "pending_consultation",
+        status: "pending",
         consultation_timeline: JSON.stringify(timeline),
       })
       .select()

@@ -19,7 +19,7 @@ export type Appointment = {
   service?: Service
   date: string
   time: string
-  status: "pending" | "pending_consultation" | "consultation_in_progress" | "confirmed" | "declined" | "cancelled" | "completed"
+  status: "pending" | "contacted" | "completed" | "confirmed" | "declined" | "cancelled"
   notes?: string
   decline_reason?: string
   consultation_timeline?: TimelineEvent[]

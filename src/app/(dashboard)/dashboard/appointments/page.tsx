@@ -38,9 +38,8 @@ interface Appointment {
 }
 
 const statusVariant: Record<string, "success" | "warning" | "pending" | "secondary" | "destructive"> = {
-  pending: "pending",
-  pending_consultation: "warning",
-  consultation_in_progress: "pending",
+  pending: "warning",
+  contacted: "pending",
   confirmed: "success",
   completed: "success",
   declined: "destructive",

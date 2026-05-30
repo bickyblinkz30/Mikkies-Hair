@@ -48,7 +48,7 @@ export async function createAppointment(formData: FormData) {
       client_email: clientEmail,
       client_phone: clientPhone,
       notes,
-      status: "pending_consultation",
+      status: "pending",
       consultation_timeline: JSON.stringify(timeline),
     })
     .select()
@@ -92,7 +92,7 @@ export async function declineAppointment(appointmentId: string) {
 
 export async function updateAppointmentStatus(
   appointmentId: string,
-  status: "confirmed" | "declined" | "completed" | "cancelled" | "pending_consultation" | "consultation_in_progress",
+  status: "confirmed" | "declined" | "completed" | "cancelled" | "pending" | "contacted",
   options?: { declineReason?: string }
 ) {
   const supabase = await createServerClient()
@@ -110,7 +110,7 @@ export async function updateAppointmentStatus(
     ? "Confirmed"
     : status === "declined"
       ? "Declined"
-      : status === "consultation_in_progress"
+      : status === "contacted"
         ? "WhatsApp Contacted"
         : status === "completed"
           ? "Completed"
@@ -272,7 +272,7 @@ export async function getAppointmentById(id: string) {
 
 export async function updateAppointmentStatusWithTimeline(
   appointmentId: string,
-  status: "consultation_in_progress"
+  status: "contacted"
 ) {
   return updateAppointmentStatus(appointmentId, status)
 }
