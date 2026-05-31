@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { updateAppointmentStatus, getAppointments } from "@/lib/actions/booking"
 
 interface ServiceInfo {
   id: string
@@ -61,7 +60,8 @@ export default function AppointmentsPage() {
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    getAppointments()
+    fetch('/api/appointments')
+      .then(res => res.json())
       .then(setAppointments)
       .catch(() => toast.error("Failed to load appointments"))
       .finally(() => setLoading(false))
@@ -75,7 +75,16 @@ export default function AppointmentsPage() {
 
   async function handleStatusChange(id: string, status: "confirmed" | "declined" | "completed" | "cancelled") {
     try {
-      await updateAppointmentStatus(id, status)
+      const response = await fetch(`/api/appointments/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update appointment')
+      }
+
       setAppointments((prev) =>
         prev.map((a) => (a.id === id ? { ...a, status } : a))
       )

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 import { verifyToken } from "@/lib/booking-token"
-import { confirmAppointment } from "@/lib/actions/booking"
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -21,7 +20,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await confirmAppointment(id)
+    const response = await fetch(`${request.nextUrl.origin}/api/appointments/${id}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: "confirmed" })
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to confirm appointment')
+    }
+
     return NextResponse.redirect(
       new URL("/?confirmed=true", request.url)
     )

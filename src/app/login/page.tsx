@@ -4,7 +4,6 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Scissors } from "lucide-react"
 import Link from "next/link"
-import { signIn } from "@/lib/actions/auth"
 
 export default function AdminLoginPage() {
   const [error, setError] = useState("")
@@ -16,9 +15,28 @@ export default function AdminLoginPage() {
     setError("")
 
     const formData = new FormData(e.currentTarget)
-    const result = await signIn(formData)
-    if (result?.error) {
-      setError(result.error)
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        setError(result.error || "Invalid credentials")
+        setLoading(false)
+        return
+      }
+
+      // Redirect to admin dashboard
+      window.location.href = '/admin'
+    } catch (err) {
+      setError('Network error. Please try again.')
       setLoading(false)
     }
   }

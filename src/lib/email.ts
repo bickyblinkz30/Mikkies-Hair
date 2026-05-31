@@ -1,5 +1,4 @@
 import { Resend } from "resend"
-import { getWhatsAppNumber } from "@/lib/actions/settings"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -37,7 +36,19 @@ export async function sendBookingEmail(params: SendEmailParams) {
   } = params
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, "") || "https://mikkieshair.com"
-  const whatsappNumber = await getWhatsAppNumber()
+  
+  // Get WhatsApp number from API
+  let whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
+  try {
+    const response = await fetch(`${baseUrl}/api/settings/whatsapp`)
+    const data = await response.json()
+    if (data.whatsappNumber) {
+      whatsappNumber = data.whatsappNumber
+    }
+  } catch (error) {
+    // Use fallback if API call fails
+    console.log("Failed to fetch WhatsApp number, using fallback")
+  }
 
   const subjects: Record<string, string> = {
     confirmation: "Your Appointment is Confirmed! – Mikkies Hair",
