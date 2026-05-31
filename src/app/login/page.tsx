@@ -4,9 +4,10 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Scissors } from "lucide-react"
 import Link from "next/link"
-import { signIn } from "@/lib/actions/auth"
+import { useRouter } from "next/navigation"
 
 export default function AdminLoginPage() {
+  const router = useRouter()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -15,10 +16,24 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError("")
 
-    const formData = new FormData(e.currentTarget)
-    const result = await signIn(formData)
-    if (result?.error) {
-      setError(result.error)
+    try {
+      const formData = new FormData(e.currentTarget)
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        body: formData,
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        setError(result.error || "Invalid credentials")
+        setLoading(false)
+        return
+      }
+
+      router.push("/admin")
+    } catch (err) {
+      setError("Network error. Please try again.")
       setLoading(false)
     }
   }
