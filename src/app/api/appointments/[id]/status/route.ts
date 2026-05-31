@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { sendBookingEmail } from '@/lib/email';
 import { STYLIST_NAME } from '@/lib/constants';
 
@@ -18,7 +18,7 @@ export async function PATCH(
       );
     }
 
-    const supabase = await createServerClient();
+    const supabase = createAdminClient();
 
     const { data: appointment } = await supabase
       .from("appointments")
@@ -52,22 +52,30 @@ export async function PATCH(
 
     const updateData: Record<string, unknown> = {
       status,
-      consultation_timeline: JSON.stringify([...currentTimeline, timelineEntry]),
+      consultation_timeline: [...currentTimeline, timelineEntry],
     };
 
     if (declineReason) {
       updateData.decline_reason = declineReason;
     }
 
-    const { error } = await supabase
+    const { data: updatedRows, error } = await supabase
       .from("appointments")
       .update(updateData)
-      .eq("id", appointmentId);
+      .eq("id", appointmentId)
+      .select();
 
     if (error) {
       return NextResponse.json(
         { error: error.message },
         { status: 500 }
+      );
+    }
+
+    if (!updatedRows || updatedRows.length === 0) {
+      return NextResponse.json(
+        { error: 'Appointment not found' },
+        { status: 404 }
       );
     }
 
