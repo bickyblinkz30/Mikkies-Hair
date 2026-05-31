@@ -1,8 +1,6 @@
 import { Resend } from "resend"
 import { getWhatsAppNumber } from "@/lib/actions/settings"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 type SendEmailParams = {
   clientEmail?: string
   clientName?: string
@@ -22,6 +20,8 @@ export async function sendBookingEmail(params: SendEmailParams) {
     console.log("Resend API key not configured. Skipping email send.")
     return { success: false, message: "Email not configured" }
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   const {
     clientEmail = "",
