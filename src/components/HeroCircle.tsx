@@ -2,29 +2,33 @@
 
 export default function HeroCircle() {
   const rings = [
-    { size: 100, opacity: 0.20, width: 1,   spin: "20s",  reverse: false },
-    { size: 92,  opacity: 0.26, width: 1,   spin: "26s",  reverse: true  },
-    { size: 84,  opacity: 0.32, width: 1,   spin: "32s",  reverse: false },
-    { size: 76,  opacity: 0.38, width: 1,   spin: "38s",  reverse: true  },
-    { size: 68,  opacity: 0.46, width: 1,   spin: "44s",  reverse: false },
-    { size: 60,  opacity: 0.55, width: 1.2, spin: "50s",  reverse: true  },
-    { size: 52,  opacity: 0.65, width: 1.2, spin: "56s",  reverse: false },
-    { size: 44,  opacity: 0.78, width: 1.4, spin: null,   reverse: false },
+    { size: 100, opacity: 0.13, width: 1,   spin: "22s",  reverse: false },
+    { size: 91,  opacity: 0.17, width: 1,   spin: "28s",  reverse: true  },
+    { size: 82,  opacity: 0.22, width: 1,   spin: "34s",  reverse: false },
+    { size: 73,  opacity: 0.28, width: 1,   spin: "40s",  reverse: true  },
+    { size: 64,  opacity: 0.36, width: 1,   spin: "46s",  reverse: false },
+    { size: 55,  opacity: 0.48, width: 1.2, spin: "52s",  reverse: true  },
+    { size: 46,  opacity: 0.62, width: 1.3, spin: "58s",  reverse: false },
+    { size: 38,  opacity: 0.78, width: 1.5, spin: null,   reverse: false },
   ];
 
   const sparkles = [
-    { top: "4%",  left: "50%", size: 4, delay: "0s"   },
-    { top: "12%", left: "85%", size: 2, delay: "0.4s" },
+    { top: "3%",  left: "50%", size: 4, delay: "0s"   },
+    { top: "11%", left: "84%", size: 2, delay: "0.4s" },
     { top: "50%", left: "98%", size: 3, delay: "0.8s" },
-    { top: "88%", left: "85%", size: 4, delay: "1.2s" },
-    { top: "96%", left: "50%", size: 2, delay: "1.6s" },
-    { top: "88%", left: "15%", size: 3, delay: "2.0s" },
+    { top: "89%", left: "84%", size: 4, delay: "1.2s" },
+    { top: "97%", left: "50%", size: 2, delay: "1.6s" },
+    { top: "89%", left: "16%", size: 3, delay: "2.0s" },
     { top: "50%", left: "2%",  size: 4, delay: "2.4s" },
-    { top: "12%", left: "15%", size: 2, delay: "2.8s" },
+    { top: "11%", left: "16%", size: 2, delay: "2.8s" },
   ];
 
+  /* comb teeth y-positions in local (pre-rotation) space */
+  const combTeethY = [10, 22, 34, 46, 58, 70, 82, 94, 106, 118];
+
   return (
-    <div className="relative mx-auto flex items-center justify-center w-[520px] h-[520px] sm:w-[560px] sm:h-[560px]">
+    <div className="relative mx-auto flex items-center justify-center w-[540px] h-[540px] sm:w-[580px] sm:h-[580px]">
+      {/* ── Concentric rings ── */}
       {rings.map((r, i) => (
         <div
           key={i}
@@ -34,10 +38,10 @@ export default function HeroCircle() {
             height: `${r.size}%`,
             border: `${r.width}px solid rgba(212,175,55,${r.opacity})`,
             boxShadow: i === rings.length - 1
-              ? "inset 0 0 80px rgba(0,0,0,0.95), 0 0 40px rgba(212,175,55,0.18)"
+              ? "inset 0 0 90px rgba(0,0,0,0.97), 0 0 35px rgba(212,175,55,0.15)"
               : "none",
             background: i === rings.length - 1
-              ? "radial-gradient(circle at 50% 40%, #1a1812 0%, #0a0a0a 100%)"
+              ? "radial-gradient(circle at 50% 42%, #1c1a12 0%, #080808 100%)"
               : "transparent",
             animation: r.spin
               ? `ringSpin ${r.spin} linear infinite${r.reverse ? " reverse" : ""}`
@@ -46,11 +50,13 @@ export default function HeroCircle() {
         />
       ))}
 
+      {/* horizontal accent lines */}
       <div className="absolute top-1/2 -translate-y-1/2 -left-[14%] w-[14%] h-px"
-           style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.55))" }} />
+           style={{ background: "linear-gradient(to right, transparent, rgba(212,175,55,0.5))" }} />
       <div className="absolute top-1/2 -translate-y-1/2 -right-[14%] w-[14%] h-px"
-           style={{ background: "linear-gradient(to left, transparent, rgba(212,175,55,0.55))" }} />
+           style={{ background: "linear-gradient(to left, transparent, rgba(212,175,55,0.5))" }} />
 
+      {/* sparkle dots */}
       {sparkles.map((s, i) => (
         <div
           key={i}
@@ -66,69 +72,147 @@ export default function HeroCircle() {
         />
       ))}
 
+      {/* bottom warm glow */}
       <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
            style={{
-             bottom: "16%",
-             width: 220, height: 30,
-             background: "radial-gradient(ellipse at center, rgba(245,215,140,0.85) 0%, rgba(212,175,55,0.35) 45%, transparent 80%)",
-             filter: "blur(6px)",
+             bottom: "15%", width: 230, height: 32,
+             background: "radial-gradient(ellipse at center, rgba(245,215,140,0.9) 0%, rgba(212,175,55,0.38) 45%, transparent 80%)",
+             filter: "blur(7px)",
            }} />
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center w-[55%]">
-        <svg viewBox="0 0 120 140" width="135" height="135" fill="none"
-             style={{ filter: "drop-shadow(0 0 10px rgba(220,220,220,0.35))" }}>
+      {/* ── Emblem ── */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center w-[56%]">
+        {/*
+          viewBox 120 × 140 — coordinate guide:
+          M text: x≈12–108, y≈15–105 (fontSize 90, baseline y=105)
+          Left M leg:  x≈12–30
+          Right M leg: x≈90–108
+        */}
+        <svg
+          viewBox="0 0 120 140"
+          width="155"
+          height="155"
+          fill="none"
+          style={{ filter: "drop-shadow(0 0 14px rgba(220,220,220,0.45))" }}
+        >
           <defs>
-            <linearGradient id="silverGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%"   stopColor="#e8e8e8" />
+            {/* diagonal silver highlight */}
+            <linearGradient id="hcS1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stopColor="#d4d4d4" />
+              <stop offset="30%"  stopColor="#ffffff" />
+              <stop offset="65%"  stopColor="#b8b8b8" />
+              <stop offset="100%" stopColor="#787878" />
+            </linearGradient>
+            {/* top-to-bottom silver for tools */}
+            <linearGradient id="hcS2" x1="0" y1="0" x2="0.25" y2="1">
+              <stop offset="0%"   stopColor="#f0f0f0" />
               <stop offset="40%"  stopColor="#ffffff" />
-              <stop offset="70%"  stopColor="#b0b0b0" />
+              <stop offset="75%"  stopColor="#c0c0c0" />
               <stop offset="100%" stopColor="#888888" />
             </linearGradient>
-            <linearGradient id="goldAccent" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%"   stopColor="#f5d78e" />
+            {/* gold pivot */}
+            <linearGradient id="hcGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stopColor="#f7e09a" />
               <stop offset="100%" stopColor="#c8941a" />
             </linearGradient>
           </defs>
-          <g transform="rotate(-30 30 50)">
-            <rect x="22" y="10" width="10" height="60" rx="3" fill="url(#silverGrad)" />
-            {[15,23,31,39,47,55,63].map(y => (
-              <rect key={y} x="22" y={y} width="10" height="3" rx="1" fill="url(#silverGrad)" opacity="0.6" />
+
+          {/* ══ M LETTER — solid silver, dominant ══ */}
+          <text
+            x="60" y="105"
+            textAnchor="middle"
+            fontSize="90"
+            fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+            fontWeight="700"
+            fill="url(#hcS1)"
+            opacity="0.92"
+          >M</text>
+
+          {/* ══ COMB — left side, ~-22° tilt ══
+               Local space: spine x=5–12, y=8–118; teeth extend RIGHT from x=12.
+               Rotation centre at spine midpoint ≈ (8, 63). */}
+          <g transform="rotate(-22, 8, 63)">
+            {/* spine */}
+            <rect x="5" y="8" width="7" height="110" rx="2.5" fill="url(#hcS2)" />
+            {/* rounded tip cap */}
+            <ellipse cx="8.5" cy="8" rx="3.5" ry="3" fill="url(#hcS2)" />
+            {/* teeth — slender, extend right from spine edge (x=12) */}
+            {combTeethY.map((y) => (
+              <rect key={y} x="12" y={y} width="13" height="5" rx="1.5" fill="url(#hcS2)" />
             ))}
           </g>
-          <g transform="rotate(-20 60 70)">
-            <ellipse cx="52" cy="108" rx="7" ry="7" fill="url(#silverGrad)" />
-            <ellipse cx="52" cy="108" rx="4" ry="4" fill="#111" />
-            <path d="M52 101 L62 40 L66 40 L56 101" fill="url(#silverGrad)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+
+          {/* ══ SCISSORS — right side, pivot at (84, 62), ~+14° tilt ══
+               Two arms cross at the pivot:
+                 Arm A: upper-right blade  →  lower-left handle ring
+                 Arm B: upper-left  blade  →  lower-right handle ring       */}
+          <g transform="translate(84, 62) rotate(14)">
+
+            {/* Arm A — upper-right blade */}
+            <path
+              d="M 3,-4  L 13,-56  L 8,-56  L 0,-4  Z"
+              fill="url(#hcS2)"
+            />
+            {/* Arm A — lower-left handle arm */}
+            <path
+              d="M 0,4  L -3,4  L -11,50  L -7,53  Z"
+              fill="url(#hcS2)"
+            />
+            {/* Handle ring A — larger (finger ring) */}
+            <circle
+              cx="-9" cy="61"
+              r="10"
+              fill="none"
+              stroke="url(#hcS2)"
+              strokeWidth="5"
+            />
+
+            {/* Arm B — upper-left blade */}
+            <path
+              d="M -3,-4  L -8,-56  L -13,-56  L 0,-4  Z"
+              fill="url(#hcS2)"
+            />
+            {/* Arm B — lower-right handle arm */}
+            <path
+              d="M 0,4  L 3,4  L 13,50  L 9,53  Z"
+              fill="url(#hcS2)"
+            />
+            {/* Handle ring B — smaller (thumb ring) */}
+            <circle
+              cx="11" cy="60"
+              r="7.5"
+              fill="none"
+              stroke="url(#hcS2)"
+              strokeWidth="5"
+            />
+
+            {/* Pivot screw (gold) */}
+            <circle cx="0" cy="0" r="4" fill="url(#hcGold)" />
+            <circle cx="0" cy="0" r="1.8" fill="#1c1500" />
           </g>
-          <g transform="rotate(20 68 70)">
-            <ellipse cx="68" cy="108" rx="7" ry="7" fill="url(#silverGrad)" />
-            <ellipse cx="68" cy="108" rx="4" ry="4" fill="#111" />
-            <path d="M68 101 L58 40 L54 40 L64 101" fill="url(#silverGrad)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
-          </g>
-          <circle cx="60" cy="72" r="3" fill="url(#goldAccent)" />
-          <text x="60" y="105" textAnchor="middle" fontSize="90" fontFamily="'Playfair Display', serif"
-                fontWeight="700" fill="url(#silverGrad)" opacity="0.28">M</text>
         </svg>
 
+        {/* Brand name */}
         <div style={{
           fontFamily: "'Cinzel','Playfair Display',serif",
-          fontSize: "clamp(15px, 2.2vw, 23px)",
+          fontSize: "clamp(14px, 2vw, 22px)",
           fontWeight: 700,
-          letterSpacing: "0.35em",
+          letterSpacing: "0.38em",
           color: "#ffffff",
-          textShadow: "0 0 22px rgba(255,255,255,0.18)",
-          marginTop: "-4px",
+          textShadow: "0 0 20px rgba(255,255,255,0.18)",
+          marginTop: "-6px",
           lineHeight: 1.1,
         }}>
           MIKKIES&nbsp;HAIR
         </div>
 
+        {/* Tagline */}
         <div style={{
           fontFamily: "'Dancing Script','Great Vibes',cursive",
-          fontSize: "clamp(12px, 1.5vw, 16px)",
-          color: "rgba(255,255,255,0.8)",
-          marginTop: "6px",
-          letterSpacing: "0.04em",
+          fontSize: "clamp(11px, 1.4vw, 15px)",
+          color: "rgba(255,255,255,0.78)",
+          marginTop: "7px",
+          letterSpacing: "0.05em",
         }}>
           Radiate confidence.&nbsp;stay&nbsp;cute
         </div>
@@ -136,7 +220,7 @@ export default function HeroCircle() {
 
       <style jsx>{`
         @keyframes ringSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes twinkle  { from { opacity: 0.3; } to { opacity: 1; } }
+        @keyframes twinkle  { from { opacity: 0.25; } to { opacity: 1; } }
       `}</style>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, startTransition } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
@@ -14,9 +14,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    startTransition(() => {
-      setIsOpen(false)
-    })
+    setIsOpen(false)
   }, [pathname])
 
   return (
@@ -47,7 +45,7 @@ export function Navbar() {
           })}
           <Link href="/booking">
             <span className="ml-3 inline-block rounded-md border border-white px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10">
-              Request Consultation
+              Book Appointment
             </span>
           </Link>
         </div>
@@ -90,7 +88,7 @@ export function Navbar() {
               <div className="pt-2">
                 <Link href="/booking" onClick={() => setIsOpen(false)}>
                   <span className="block w-full rounded-md border border-white px-5 py-3 text-center text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10">
-                    Request Consultation
+                    Book Appointment
                   </span>
                 </Link>
               </div>
