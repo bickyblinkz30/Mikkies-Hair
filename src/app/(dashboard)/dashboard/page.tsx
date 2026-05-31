@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { getAppointments } from "@/lib/actions/booking"
+
 import type { Appointment } from "@/lib/types"
 
 const statusVariant: Record<string, "success" | "warning" | "pending" | "secondary" | "destructive"> = {
@@ -28,8 +28,11 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getAppointments()
-      .then(setAppointments)
+    fetch("/api/admin/appointments")
+      .then((r) => r.json())
+      .then((result) => {
+        if (result.data) setAppointments(result.data)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])

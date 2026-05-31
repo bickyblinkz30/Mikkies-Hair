@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { CalendarDays, Clock, Scissors, CheckCircle, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { getWhatsAppNumber } from "@/lib/actions/settings"
+
 
 function ConfirmationContent() {
   const searchParams = useSearchParams()
@@ -19,7 +19,10 @@ function ConfirmationContent() {
   )
 
   useEffect(() => {
-    getWhatsAppNumber().then(setWhatsappNumber)
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => setWhatsappNumber(data.whatsapp_number || "447123456789"))
+      .catch(() => {})
   }, [])
 
   const formattedDate = date

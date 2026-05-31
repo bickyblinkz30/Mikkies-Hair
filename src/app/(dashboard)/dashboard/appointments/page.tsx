@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { updateAppointmentStatus, getAppointments } from "@/lib/actions/booking"
+
 
 interface ServiceInfo {
   id: string
@@ -61,8 +61,11 @@ export default function AppointmentsPage() {
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    getAppointments()
-      .then(setAppointments)
+    fetch("/api/admin/appointments")
+      .then((r) => r.json())
+      .then((result) => {
+        if (result.data) setAppointments(result.data)
+      })
       .catch(() => toast.error("Failed to load appointments"))
       .finally(() => setLoading(false))
   }, [])
@@ -75,11 +78,20 @@ export default function AppointmentsPage() {
 
   async function handleStatusChange(id: string, status: "confirmed" | "declined" | "completed" | "cancelled") {
     try {
-      await updateAppointmentStatus(id, status)
-      setAppointments((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, status } : a))
-      )
-      toast.success(`Appointment ${status} successfully`)
+      const res = await fetch("/api/admin/appointments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status, timelineAction: status }),
+      })
+      const result = await res.json()
+      if (result.success) {
+        setAppointments((prev) =>
+          prev.map((a) => (a.id === id ? { ...a, status } : a))
+        )
+        toast.success(`Appointment ${status} successfully`)
+      } else {
+        toast.error("Failed to update appointment")
+      }
     } catch {
       toast.error("Failed to update appointment")
     }

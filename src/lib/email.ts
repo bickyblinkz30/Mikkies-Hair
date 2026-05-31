@@ -1,5 +1,5 @@
 import { Resend } from "resend"
-import { getWhatsAppNumber } from "@/lib/actions/settings"
+import { createAdminClient } from "@/lib/supabase/admin"
 
 type SendEmailParams = {
   clientEmail?: string
@@ -37,7 +37,17 @@ export async function sendBookingEmail(params: SendEmailParams) {
   } = params
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, "") || "https://mikkieshair.com"
-  const whatsappNumber = await getWhatsAppNumber()
+
+  let whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789"
+  try {
+    const supabase = createAdminClient()
+    const { data: setting } = await supabase
+      .from("settings")
+      .select("value")
+      .eq("key", "whatsapp_number")
+      .single()
+    if (setting?.value) whatsappNumber = setting.value
+  } catch {}
 
   const subjects: Record<string, string> = {
     confirmation: "Your Appointment is Confirmed! – Mikkies Hair",

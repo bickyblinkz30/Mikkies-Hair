@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { verifyToken } from "@/lib/booking-token"
-import { confirmAppointment } from "@/lib/actions/booking"
+import { createAdminClient } from "@/lib/supabase/admin"
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -21,7 +21,39 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await confirmAppointment(id)
+    const supabase = createAdminClient()
+
+    const { data: existing } = await supabase
+      .from("appointments")
+      .select("consultation_timeline")
+      .eq("id", id)
+      .single()
+
+    let currentTimeline: Array<{ date: string; action: string; timestamp: string }> = []
+    if (existing?.consultation_timeline) {
+      if (typeof existing.consultation_timeline === "string") {
+        try { currentTimeline = JSON.parse(existing.consultation_timeline) } catch {}
+      } else if (Array.isArray(existing.consultation_timeline)) {
+        currentTimeline = existing.consultation_timeline
+      }
+    }
+
+    const timelineEntry = {
+      date: new Date().toISOString().split("T")[0],
+      action: "Confirmed",
+      timestamp: new Date().toISOString(),
+    }
+
+    const { error } = await supabase
+      .from("appointments")
+      .update({
+        status: "confirmed",
+        consultation_timeline: JSON.stringify([...currentTimeline, timelineEntry]),
+      })
+      .eq("id", id)
+
+    if (error) throw error
+
     return NextResponse.redirect(
       new URL("/?confirmed=true", request.url)
     )

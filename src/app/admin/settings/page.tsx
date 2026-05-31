@@ -6,8 +6,7 @@ import { motion } from "framer-motion"
 import { Scissors, Save, MessageCircle, Loader2, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { signOut } from "@/lib/actions/auth"
-import { getSettings, updateSetting, validateAndNormalizePhone } from "@/lib/actions/settings"
+
 
 export default function AdminSettingsPage() {
   const [whatsappNumber, setWhatsappNumber] = useState("")
@@ -15,7 +14,8 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    getSettings()
+    fetch("/api/settings")
+      .then((r) => r.json())
       .then((data) => {
         setWhatsappNumber(data.whatsapp_number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789")
       })
@@ -23,16 +23,29 @@ export default function AdminSettingsPage() {
       .finally(() => setLoading(false))
   }, [])
 
+  function normalizePhone(phone: string): string {
+    const digits = phone.replace(/\D/g, "")
+    if (digits.length < 7 || digits.length > 15) throw new Error("Invalid phone number length")
+    return digits
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
 
     try {
-      const normalized = await validateAndNormalizePhone(whatsappNumber)
-      const result = await updateSetting("whatsapp_number", normalized)
+      const normalized = normalizePhone(whatsappNumber)
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: "whatsapp_number", value: normalized }),
+      })
+      const result = await res.json()
       if (result.success) {
         setWhatsappNumber(normalized)
         toast.success("WhatsApp number updated successfully")
+      } else {
+        toast.error("Failed to save settings")
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Invalid phone number")
@@ -59,11 +72,17 @@ export default function AdminSettingsPage() {
               <a href="/admin" className="text-sm text-white/50 hover:text-white transition-colors">
                 Consultations
               </a>
-              <form action={signOut}>
-                <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
-                  Sign Out
-                </Button>
-              </form>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={async () => {
+                  await fetch("/api/auth/signout", { method: "POST" })
+                  window.location.href = "/login"
+                }}
+                className="text-white/50 hover:text-white"
+              >
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>

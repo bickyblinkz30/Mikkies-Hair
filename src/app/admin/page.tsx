@@ -17,8 +17,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { signOut } from "@/lib/actions/auth"
-import { getWhatsAppNumber } from "@/lib/actions/settings"
+
 import { DECLINE_REASONS } from "@/lib/constants"
 import type { Appointment, TimelineEvent } from "@/lib/types"
 
@@ -119,9 +118,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     let cancelled = false
 
-    getWhatsAppNumber().then((num) => {
-      if (!cancelled) setWhatsappNumber(num)
-    })
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled) setWhatsappNumber(data.whatsapp_number || "447123456789")
+      })
+      .catch(() => {})
 
     fetchAppointments(setAppointments, setLoading)
     return () => { cancelled = true }
@@ -239,11 +241,17 @@ export default function AdminDashboard() {
               <a href="/admin/settings" className="text-sm text-white/50 hover:text-white transition-colors">
                 Settings
               </a>
-              <form action={signOut}>
-                <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
-                  Sign Out
-                </Button>
-              </form>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={async () => {
+                  await fetch("/api/auth/signout", { method: "POST" })
+                  window.location.href = "/login"
+                }}
+                className="text-white/50 hover:text-white"
+              >
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>
