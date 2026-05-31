@@ -17,7 +17,6 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { getAppointments, updateAppointmentStatus } from "@/lib/actions/booking"
 import { signOut } from "@/lib/actions/auth"
 import { getWhatsAppNumber } from "@/lib/actions/settings"
 import { DECLINE_REASONS } from "@/lib/constants"
@@ -52,6 +51,58 @@ function normalizePhone(phone: string): string {
   return digits
 }
 
+const updateAppointmentStatus = async (
+  id: string,
+  status: string,
+  options?: { timelineAction?: string; declineReason?: string }
+) => {
+  try {
+    const res = await fetch("/api/admin/appointments", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        status,
+        timelineAction: options?.timelineAction || status,
+        declineReason: options?.declineReason,
+      }),
+    })
+
+    const result = await res.json()
+
+    if (!res.ok) {
+      console.error("Update failed:", result.error)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error("Network error:", err)
+    return false
+  }
+}
+
+const fetchAppointments = async (
+  setter: React.Dispatch<React.SetStateAction<Appointment[]>>,
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  try {
+    const res = await fetch("/api/admin/appointments")
+    const result = await res.json()
+
+    if (!res.ok) {
+      console.error("Fetch failed:", result.error)
+      return
+    }
+
+    setter(result.data)
+  } catch (err) {
+    console.error("Fetch appointments error:", err)
+  } finally {
+    setLoading?.(false)
+  }
+}
+
 export default function AdminDashboard() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
@@ -72,16 +123,7 @@ export default function AdminDashboard() {
       if (!cancelled) setWhatsappNumber(num)
     })
 
-    getAppointments()
-      .then((data) => {
-        if (!cancelled) setAppointments(data)
-      })
-      .catch(() => {
-        if (!cancelled) toast.error("Failed to load consultations")
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
+    fetchAppointments(setAppointments, setLoading)
     return () => { cancelled = true }
   }, [])
 
@@ -102,67 +144,51 @@ export default function AdminDashboard() {
 
   async function handleConfirm(id: string) {
     setActionLoading(true)
-    try {
-      const success = await updateAppointmentStatus(id, "confirmed")
-      if (success) {
-        const refreshed = await getAppointments()
-        setAppointments(refreshed)
-        toast.success("Consultation confirmed!")
-        setSelectedApt(null)
-      } else {
-        toast.error("Failed to confirm consultation")
-      }
-    } catch (error) {
-      console.error("handleConfirm error:", error)
+    const success = await updateAppointmentStatus(id, "confirmed", {
+      timelineAction: "Confirmed",
+    })
+    if (success) {
+      await fetchAppointments(setAppointments)
+      toast.success("Consultation confirmed!")
+      setSelectedApt(null)
+    } else {
       toast.error("Failed to confirm consultation")
-    } finally {
-      setActionLoading(false)
     }
+    setActionLoading(false)
   }
 
   async function handleDecline() {
     if (!declineDialog) return
     setActionLoading(true)
-    try {
-      const success = await updateAppointmentStatus(declineDialog.id, "declined", {
-        declineReason: declineReason || undefined,
-      })
-      if (success) {
-        const refreshed = await getAppointments()
-        setAppointments(refreshed)
-        toast.success("Consultation declined")
-        setDeclineDialog(null)
-        setDeclineReason("")
-        setSelectedApt(null)
-      } else {
-        toast.error("Failed to decline consultation")
-      }
-    } catch (error) {
-      console.error("handleDecline error:", error)
+    const success = await updateAppointmentStatus(declineDialog.id, "declined", {
+      timelineAction: "Declined",
+      declineReason: declineReason || undefined,
+    })
+    if (success) {
+      await fetchAppointments(setAppointments)
+      toast.success("Consultation declined")
+      setDeclineDialog(null)
+      setDeclineReason("")
+      setSelectedApt(null)
+    } else {
       toast.error("Failed to decline consultation")
-    } finally {
-      setActionLoading(false)
     }
+    setActionLoading(false)
   }
 
   async function handleMarkComplete(id: string) {
     setActionLoading(true)
-    try {
-      const success = await updateAppointmentStatus(id, "completed")
-      if (success) {
-        const refreshed = await getAppointments()
-        setAppointments(refreshed)
-        toast.success("Marked as completed")
-        setSelectedApt(null)
-      } else {
-        toast.error("Failed to update")
-      }
-    } catch (error) {
-      console.error("handleMarkComplete error:", error)
+    const success = await updateAppointmentStatus(id, "completed", {
+      timelineAction: "Consultation Completed",
+    })
+    if (success) {
+      await fetchAppointments(setAppointments)
+      toast.success("Marked as completed")
+      setSelectedApt(null)
+    } else {
       toast.error("Failed to update")
-    } finally {
-      setActionLoading(false)
     }
+    setActionLoading(false)
   }
 
   function getWhatsAppLink(apt: Appointment): string {
@@ -182,21 +208,15 @@ export default function AdminDashboard() {
 
   async function handleWhatsAppClick(apt: Appointment) {
     setActionLoading(true)
-    try {
-      const success = await updateAppointmentStatus(apt.id, "contacted")
-      if (!success) {
-        toast.error("Failed to update status")
-      }
-      const refreshed = await getAppointments()
-      setAppointments(refreshed)
-      window.open(getWhatsAppLink(apt), "_blank")
-    } catch (error) {
-      console.error("handleWhatsAppClick error:", error)
+    const success = await updateAppointmentStatus(apt.id, "contacted", {
+      timelineAction: "WhatsApp Contacted",
+    })
+    if (!success) {
       toast.error("Failed to update status")
-      window.open(getWhatsAppLink(apt), "_blank")
-    } finally {
-      setActionLoading(false)
     }
+    await fetchAppointments(setAppointments)
+    window.open(getWhatsAppLink(apt), "_blank")
+    setActionLoading(false)
   }
 
   const tabs = ["all", "pending", "contacted", "confirmed", "declined", "completed"]
