@@ -5,11 +5,11 @@ import { STYLIST_NAME } from '@/lib/constants';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { status, declineReason } = await req.json();
-    const appointmentId = params.id;
+    const { id: appointmentId } = await params;
 
     if (!status) {
       return NextResponse.json(
