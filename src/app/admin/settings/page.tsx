@@ -6,34 +6,54 @@ import { motion } from "framer-motion"
 import { Scissors, Save, MessageCircle, Loader2, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { signOut } from "@/lib/actions/auth"
-import { getSettings, updateSetting, validateAndNormalizePhone } from "@/lib/actions/settings"
+import { useRouter } from "next/navigation"
 
 export default function AdminSettingsPage() {
+  const router = useRouter()
   const [whatsappNumber, setWhatsappNumber] = useState("")
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    getSettings()
-      .then((data) => {
-        setWhatsappNumber(data.whatsapp_number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789")
+    fetch('/api/settings/whatsapp')
+      .then(res => res.json())
+      .then(data => {
+        setWhatsappNumber(data.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "447123456789")
       })
       .catch(() => toast.error("Failed to load settings"))
       .finally(() => setLoading(false))
   }, [])
+
+  async function handleSignOut() {
+    await fetch('/api/auth/signout', { method: 'POST' })
+    router.push('/login')
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
 
     try {
-      const normalized = await validateAndNormalizePhone(whatsappNumber)
-      const result = await updateSetting("whatsapp_number", normalized)
-      if (result.success) {
-        setWhatsappNumber(normalized)
-        toast.success("WhatsApp number updated successfully")
+      // Validate phone number format
+      const digits = whatsappNumber.replace(/\D/g, "")
+      if (digits.length < 7 || digits.length > 15) {
+        throw new Error("Invalid phone number length")
       }
+      
+      const response = await fetch('/api/settings/whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: whatsappNumber })
+      })
+
+      const result = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to update WhatsApp number")
+      }
+
+      setWhatsappNumber(digits)
+      toast.success("WhatsApp number updated successfully")
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Invalid phone number")
     } finally {
@@ -59,11 +79,9 @@ export default function AdminSettingsPage() {
               <a href="/admin" className="text-sm text-white/50 hover:text-white transition-colors">
                 Consultations
               </a>
-              <form action={signOut}>
-                <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
-                  Sign Out
-                </Button>
-              </form>
+              <Button variant="ghost" size="sm" className="text-white/50 hover:text-white" onClick={handleSignOut}>
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>

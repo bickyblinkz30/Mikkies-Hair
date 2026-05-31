@@ -17,9 +17,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { getAppointments, updateAppointmentStatus } from "@/lib/actions/booking"
-import { signOut } from "@/lib/actions/auth"
-import { getWhatsAppNumber } from "@/lib/actions/settings"
+import { useRouter } from "next/navigation"
 import { DECLINE_REASONS } from "@/lib/constants"
 import type { Appointment, TimelineEvent } from "@/lib/types"
 
@@ -53,6 +51,7 @@ function normalizePhone(phone: string): string {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter()
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
@@ -68,12 +67,18 @@ export default function AdminDashboard() {
   useEffect(() => {
     let cancelled = false
 
-    getWhatsAppNumber().then((num) => {
-      if (!cancelled) setWhatsappNumber(num)
-    })
+    fetch('/api/settings/whatsapp')
+      .then(res => res.json())
+      .then(data => {
+        if (!cancelled) setWhatsappNumber(data.whatsappNumber)
+      })
+      .catch(() => {
+        if (!cancelled) toast.error("Failed to load WhatsApp number")
+      })
 
-    getAppointments()
-      .then((data) => {
+    fetch('/api/appointments')
+      .then(res => res.json())
+      .then(data => {
         if (!cancelled) setAppointments(data)
       })
       .catch(() => {
@@ -103,7 +108,16 @@ export default function AdminDashboard() {
   async function handleConfirm(id: string) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(id, "confirmed")
+      const response = await fetch(`/api/appointments/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: "confirmed" })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to confirm consultation')
+      }
+
       const updated = appointments.map((a) =>
         a.id === id ? { ...a, status: "confirmed" as const } : a
       )
@@ -121,9 +135,19 @@ export default function AdminDashboard() {
     if (!declineDialog) return
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(declineDialog.id, "declined", {
-        declineReason: declineReason || undefined,
+      const response = await fetch(`/api/appointments/${declineDialog.id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          status: "declined", 
+          declineReason: declineReason || undefined 
+        })
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to decline consultation')
+      }
+
       const updated = appointments.map((a) =>
         a.id === declineDialog.id
           ? { ...a, status: "declined" as const, decline_reason: declineReason }
@@ -144,7 +168,16 @@ export default function AdminDashboard() {
   async function handleMarkComplete(id: string) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(id, "completed")
+      const response = await fetch(`/api/appointments/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: "completed" })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to mark as completed')
+      }
+
       const updated = appointments.map((a) =>
         a.id === id ? { ...a, status: "completed" as const } : a
       )
@@ -173,12 +206,27 @@ export default function AdminDashboard() {
     return []
   }
 
+  async function handleSignOut() {
+    await fetch('/api/auth/signout', { method: 'POST' })
+    router.push('/login')
+  }
+
   async function handleWhatsAppClick(apt: Appointment) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(apt.id, "contacted")
-      const refreshed = await getAppointments()
-      setAppointments(refreshed)
+      const response = await fetch(`/api/appointments/${apt.id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: "contacted" })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update status')
+      }
+
+      const refreshed = await fetch('/api/appointments')
+      const refreshedData = await refreshed.json()
+      setAppointments(refreshedData)
       window.open(getWhatsAppLink(apt), "_blank")
     } catch {
       toast.error("Failed to update status")
@@ -208,11 +256,9 @@ export default function AdminDashboard() {
               <a href="/admin/settings" className="text-sm text-white/50 hover:text-white transition-colors">
                 Settings
               </a>
-              <form action={signOut}>
-                <Button variant="ghost" size="sm" className="text-white/50 hover:text-white">
-                  Sign Out
-                </Button>
-              </form>
+              <Button variant="ghost" size="sm" className="text-white/50 hover:text-white" onClick={handleSignOut}>
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>
