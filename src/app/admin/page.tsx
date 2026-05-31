@@ -103,14 +103,17 @@ export default function AdminDashboard() {
   async function handleConfirm(id: string) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(id, "confirmed")
-      const updated = appointments.map((a) =>
-        a.id === id ? { ...a, status: "confirmed" as const } : a
-      )
-      setAppointments(updated)
-      toast.success("Consultation confirmed!")
-      setSelectedApt(null)
-    } catch {
+      const success = await updateAppointmentStatus(id, "confirmed")
+      if (success) {
+        const refreshed = await getAppointments()
+        setAppointments(refreshed)
+        toast.success("Consultation confirmed!")
+        setSelectedApt(null)
+      } else {
+        toast.error("Failed to confirm consultation")
+      }
+    } catch (error) {
+      console.error("handleConfirm error:", error)
       toast.error("Failed to confirm consultation")
     } finally {
       setActionLoading(false)
@@ -121,20 +124,21 @@ export default function AdminDashboard() {
     if (!declineDialog) return
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(declineDialog.id, "declined", {
+      const success = await updateAppointmentStatus(declineDialog.id, "declined", {
         declineReason: declineReason || undefined,
       })
-      const updated = appointments.map((a) =>
-        a.id === declineDialog.id
-          ? { ...a, status: "declined" as const, decline_reason: declineReason }
-          : a
-      )
-      setAppointments(updated)
-      toast.success("Consultation declined")
-      setDeclineDialog(null)
-      setDeclineReason("")
-      setSelectedApt(null)
-    } catch {
+      if (success) {
+        const refreshed = await getAppointments()
+        setAppointments(refreshed)
+        toast.success("Consultation declined")
+        setDeclineDialog(null)
+        setDeclineReason("")
+        setSelectedApt(null)
+      } else {
+        toast.error("Failed to decline consultation")
+      }
+    } catch (error) {
+      console.error("handleDecline error:", error)
       toast.error("Failed to decline consultation")
     } finally {
       setActionLoading(false)
@@ -144,14 +148,17 @@ export default function AdminDashboard() {
   async function handleMarkComplete(id: string) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(id, "completed")
-      const updated = appointments.map((a) =>
-        a.id === id ? { ...a, status: "completed" as const } : a
-      )
-      setAppointments(updated)
-      toast.success("Marked as completed")
-      setSelectedApt(null)
-    } catch {
+      const success = await updateAppointmentStatus(id, "completed")
+      if (success) {
+        const refreshed = await getAppointments()
+        setAppointments(refreshed)
+        toast.success("Marked as completed")
+        setSelectedApt(null)
+      } else {
+        toast.error("Failed to update")
+      }
+    } catch (error) {
+      console.error("handleMarkComplete error:", error)
       toast.error("Failed to update")
     } finally {
       setActionLoading(false)
@@ -176,11 +183,15 @@ export default function AdminDashboard() {
   async function handleWhatsAppClick(apt: Appointment) {
     setActionLoading(true)
     try {
-      await updateAppointmentStatus(apt.id, "contacted")
+      const success = await updateAppointmentStatus(apt.id, "contacted")
+      if (!success) {
+        toast.error("Failed to update status")
+      }
       const refreshed = await getAppointments()
       setAppointments(refreshed)
       window.open(getWhatsAppLink(apt), "_blank")
-    } catch {
+    } catch (error) {
+      console.error("handleWhatsAppClick error:", error)
       toast.error("Failed to update status")
       window.open(getWhatsAppLink(apt), "_blank")
     } finally {
@@ -370,6 +381,7 @@ export default function AdminDashboard() {
                                   size="sm"
                                   className="gap-1 bg-[#C9A84C] text-black hover:bg-[#C9A84C]/90"
                                   onClick={() => handleConfirm(apt.id)}
+                                  disabled={actionLoading}
                                 >
                                   <Check className="h-4 w-4" />
                                   <span className="hidden sm:inline">Confirm</span>

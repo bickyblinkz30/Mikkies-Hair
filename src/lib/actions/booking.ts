@@ -95,7 +95,7 @@ export async function updateAppointmentStatus(
   status: "confirmed" | "declined" | "completed" | "cancelled" | "pending" | "contacted",
   options?: { declineReason?: string }
 ) {
-  const supabase = await createServerClient()
+  const supabase = createAdminClient()
 
   const { data: appointment } = await supabase
     .from("appointments")
@@ -103,7 +103,10 @@ export async function updateAppointmentStatus(
     .eq("id", appointmentId)
     .single()
 
-  if (!appointment) throw new Error("Appointment not found")
+  if (!appointment) {
+    console.error("Appointment not found:", appointmentId)
+    return false
+  }
 
   const currentTimeline = (appointment.consultation_timeline as Array<{date: string; action: string; timestamp: string}>) || []
   const timelineAction = status === "confirmed"
@@ -131,12 +134,18 @@ export async function updateAppointmentStatus(
     updateData.decline_reason = options.declineReason
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("appointments")
     .update(updateData)
     .eq("id", appointmentId)
+    .select()
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    console.error("Status update error:", error)
+    return false
+  }
+
+  console.log("Status updated successfully:", data)
 
   const formattedDate = new Date(appointment.date + "T12:00:00").toLocaleDateString("en-US", {
     weekday: "long",
@@ -175,7 +184,7 @@ export async function updateAppointmentStatus(
   revalidatePath("/dashboard/calendar")
   revalidatePath("/admin")
 
-  return { success: true }
+  return true
 }
 
 export async function blockDate(date: string, startTime?: string, endTime?: string, reason?: string) {
