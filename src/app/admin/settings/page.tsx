@@ -155,16 +155,6 @@ export default function AdminSettingsPage() {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 rounded-lg border border-[#C9A84C]/20 bg-[#C9A84C]/5 p-3 text-sm text-white/50">
-                      <div className="h-1.5 w-1.5 rounded-full bg-[#C9A84C]" />
-                      <span>
-                        Environment variable fallback:{" "}
-                        <code className="text-[#C9A84C]">
-                          {process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "Not set"}
-                        </code>
-                      </span>
-                    </div>
-
                     <Button
                       type="submit"
                       disabled={saving}
