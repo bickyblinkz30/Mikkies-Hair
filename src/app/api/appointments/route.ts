@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     const clientPhone = formData.get("clientPhone") as string;
     const notes = formData.get("notes") as string;
 
-    const supabase = createServerClient();
+    const supabase = await createServerClient();
 
     let serviceName = "Selected Service";
     if (serviceId) {
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
         client_phone: clientPhone,
         notes,
         status: "pending",
-        consultation_timeline: JSON.stringify(timeline),
+        consultation_timeline: timeline,
       })
       .select()
       .single();
