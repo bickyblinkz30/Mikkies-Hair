@@ -4,8 +4,9 @@ import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import {
   Search, Clock, CalendarDays, MessageCircle, Check, X,
-  Eye, Loader2, History, Phone, Mail, Scissors,
+  Eye, Loader2, History, Phone, Mail,
 } from "lucide-react"
+import { MiniEmblem } from "@/components/layout/MiniEmblem"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -244,10 +245,8 @@ export default function AdminDashboard() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C9A84C]">
-                <Scissors className="h-4 w-4 text-black" />
-              </div>
-              <span className="font-serif text-lg font-bold text-white">Mikkies Hair</span>
+              <MiniEmblem size={36} />
+              <span className="font-serif text-xl font-bold tracking-wide text-white">Mikkies Hair</span>
               <span className="rounded-md bg-[#C9A84C]/10 px-2 py-0.5 text-xs font-medium text-[#C9A84C]">
                 Admin
               </span>
