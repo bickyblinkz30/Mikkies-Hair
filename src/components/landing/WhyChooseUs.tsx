@@ -55,7 +55,7 @@ const itemVariants: Variants = {
 
 export function WhyChooseUs() {
   return (
-    <section className="relative bg-black pb-32 pt-8">
+    <section className="relative pb-32 pt-8">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

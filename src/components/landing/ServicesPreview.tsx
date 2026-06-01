@@ -71,7 +71,7 @@ const itemVariants: Variants = {
 
 export function ServicesPreview() {
   return (
-    <section className="relative bg-black py-24" id="services">
+    <section className="relative py-24" id="services">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
