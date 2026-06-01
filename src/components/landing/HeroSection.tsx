@@ -5,8 +5,9 @@ import HeroCircle from "@/components/HeroCircle"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden text-white">
-      <div className="relative mx-auto flex min-h-screen w-full flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-[70vh] sm:min-h-[80vh] overflow-hidden text-white">
+      <div className="relative mx-auto flex min-h-[70vh] sm:min-h-[80vh] w-full flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+        <h1 className="sr-only">Mikkies Hair — Premium Hair Salon</h1>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}

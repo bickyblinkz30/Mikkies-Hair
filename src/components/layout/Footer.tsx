@@ -34,7 +34,7 @@ export function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-white/50">
               Radiate confidence. Stay cute.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-white/30">
+            <p className="mt-3 text-sm leading-relaxed text-white/55">
               Premium hair salon dedicated to bringing your vision to life with artistry,
               precision, and the highest standard of care.
             </p>
@@ -120,7 +120,7 @@ export function Footer() {
 
         <div className="relative mt-12 pt-8">
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          <p className="text-center text-sm text-white/30">
+          <p className="text-center text-sm text-white/55">
             &copy; {new Date().getFullYear()} Mikkies Hair. All rights reserved.
           </p>
         </div>
